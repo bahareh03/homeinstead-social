@@ -39,7 +39,6 @@ education_topics: [Alzheimer's disease, vascular dementia, early signs of dement
 
 # "My pick" days: topics chosen to win against other Leeds home care companies
 choice_topics: [
-  "our CQC 'Good' rating across all five areas and what it means for families",
   "minimum one-hour visits: never rushed 15-minute calls",
   "matching each client with a consistent care professional",
   "home help after a hospital stay in Leeds",
@@ -55,7 +54,28 @@ choice_topics: [
   "home care vs care home: costs and benefits explained",
   "a day in the life of a Home Instead care professional"]
 
-hashtags: "#HomeCareLeeds #Leeds #HomeInstead #ElderlyCare #DementiaCare #CareAtHome"
+# Hashtags per post type, most important first. Instagram uses the first 5 (its maximum), Facebook the first 2.
+hashtags:
+  difference:  ["#HomeCareLeeds", "#HomeInstead", "#ElderlyCare", "#CareAtHome", "#Leeds"]
+  education:   ["#HomeCareLeeds", "#FamilyCarers", "#HealthyAgeing", "#ElderlyCare", "#Leeds"]
+  live_in:     ["#LiveInCare", "#HomeCareLeeds", "#ElderlyCare", "#CareAtHome", "#Leeds"]
+  recruitment: ["#CareJobsLeeds", "#LeedsJobs", "#CareJobs", "#CareerInCare", "#HomeInstead"]
+  choice:      ["#HomeCareLeeds", "#CompanionshipCare", "#ElderlyCare", "#HomeInstead", "#Leeds"]
+  franchisor:  ["#HomeInstead", "#HomeCareLeeds", "#ElderlyCare", "#CareAtHome", "#Leeds"]
+topic_hashtags:          # added first on educational posts about these topics
+  dementia: "#DementiaCare"
+  alzheimer: "#Alzheimers"
+  parkinson: "#Parkinsons"
+  stroke: "#StrokeRecovery"
+  loneliness: "#Loneliness"
+  falls: "#FallsPrevention"
+
+# Google posts should sell or convince; tips and job ads go to Facebook/Instagram only
+google_post_types: [difference, live_in, choice, franchisor]
+
+# Leeds areas we cover, mentioned one per post (natural local relevance)
+areas: [Headingley, Chapel Allerton, Meanwood, Chapeltown, Kirkstall, Armley, Cross Gates, Moor Allerton,
+        Bramley, Weetwood, Far Headingley, Harehills, Burley, Whitkirk, Hunslet]
 
 # Keyword research (website + Leeds senior home care / domiciliary care companies, keywords only)
 own_site:

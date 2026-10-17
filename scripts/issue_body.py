@@ -5,8 +5,11 @@ p = json.loads((pathlib.Path(__file__).resolve().parents[1] / "state" / "next_po
 print(f"**{p['type'].replace('_', ' ').title()}**" + (f": {p['topic']}" if p["topic"] else ""))
 if p["image_url"]:
     print(f"\n![image]({p['image_url']})")
-print("\n### Facebook & Instagram\n\n" + p["social"])
-print("\n### Google Business Profile\n\n" + p["google"])
+print(f"\n_Layout: {p.get('layout', '')}_")
+print("\n### Instagram\n\n" + p.get("instagram", p["social"]))
+print("\n### Facebook\n\n" + p.get("facebook", p["social"]))
+print("\n### Google Business Profile\n\n" + (p["google"] if p.get("google_ok", True)
+      else "_Not posted to Google: tips and job posts work better on Facebook and Instagram._"))
 print("\n**Keywords:** " + (", ".join(p["keywords"]) or "none"))
 if p["gaps"]:
     print("\n**Keywords Leeds competitors use that you don't:** " + ", ".join(p["gaps"]))

@@ -20,7 +20,7 @@ def wait_until_live(url, tries=12):
 
 def facebook(post):
     r = requests.post(f"{GRAPH}/{os.environ['FB_PAGE_ID']}/photos", timeout=60, data={
-        "url": post["image_url"], "caption": post["social"], "access_token": os.environ["META_PAGE_TOKEN"]})
+        "url": post["image_url"], "caption": post.get("facebook", post["social"]), "access_token": os.environ["META_PAGE_TOKEN"]})
     r.raise_for_status()
     return r.json().get("post_id")
 
@@ -28,7 +28,7 @@ def facebook(post):
 def instagram(post):
     ig, tok = os.environ["IG_USER_ID"], os.environ["META_PAGE_TOKEN"]
     r = requests.post(f"{GRAPH}/{ig}/media", timeout=60,
-                      data={"image_url": post["image_url"], "caption": post["social"][:2200], "access_token": tok})
+                      data={"image_url": post["image_url"], "caption": post.get("instagram", post["social"])[:2200], "access_token": tok})
     r.raise_for_status()
     cid = r.json()["id"]
     for _ in range(12):                              # wait for Instagram to process the image
@@ -82,6 +82,9 @@ def main():
         os.environ["GOOGLE_READY"] = "1"
     for name in CFG["platforms"]:
         fn, needed_secret = PLATFORMS[name]
+        if name == "google" and not post.get("google_ok", True):
+            print("google: skipped (this post type isn't shown on Google)")
+            continue
         if not os.getenv(needed_secret):
             print(f"{name}: skipped (not set up yet)")
             continue
@@ -101,13 +104,16 @@ def main():
         h["published"].append(f"{post['date']} {post['type']} -> {', '.join(done)}")
         h["types"].append(post["type"])
         h["keywords"] += post["keywords"]
+        h.setdefault("layouts", []).append(post.get("layout", ""))
         if post.get("photo"):
             h["media"].append(post["photo"])
         if post.get("franchisor_key"):
             h["franchisor"].append(post["franchisor_key"])
         hf.write_text(json.dumps(h, indent=2))
-    if failed or not done:
-        raise SystemExit(f"Failed: {failed or 'nothing published'}")   # shows red in GitHub + emails you
+    if failed:
+        raise SystemExit(f"Failed: {failed}")
+    if not done:
+        print("Nothing published: no platform set up yet for this post type.")   # shows red in GitHub + emails you
 
 
 if __name__ == "__main__":
