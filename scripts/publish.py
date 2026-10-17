@@ -71,6 +71,26 @@ PLATFORMS = {"facebook": (facebook, "META_PAGE_TOKEN"),
              "google": (google, "GOOGLE_READY")}
 
 
+def via_make(post):
+    """One call to the Make.com scenario; its router posts to Google, Facebook and Instagram
+    (each route has a filter on the matching yes/no field below)."""
+    b = CFG["business"]
+    cta_url = b["recruitment_url"] if post["type"] == "recruitment" else b["website"]
+    to = {"google": post.get("google_ok", True), "facebook": True, "instagram": True}
+    to = {k: v and k in CFG["platforms"] and k in CFG.get("make_platforms", ["google"]) for k, v in to.items()}
+    r = requests.post(os.environ["MAKE_WEBHOOK_URL"], timeout=60, json={
+        "summary": post["google"], "image_url": post["image_url"],
+        "cta_type": "LEARN_MORE", "cta_url": cta_url, "phone": b["phone"],
+        "facebook_caption": post.get("facebook", post["social"]),
+        "instagram_caption": post.get("instagram", post["social"])[:2200],
+        "post_google": "yes" if to["google"] else "no",
+        "post_facebook": "yes" if to["facebook"] else "no",
+        "post_instagram": "yes" if to["instagram"] else "no",
+        "type": post["type"], "date": post["date"]})
+    r.raise_for_status()
+    return [k for k, v in to.items() if v]
+
+
 def main():
     post = json.loads((STATE / "next_post.json").read_text())
     if not post.get("image_url"):
@@ -78,9 +98,19 @@ def main():
     wait_until_live(post["image_url"])
 
     done, failed = [], []
-    if os.getenv("MAKE_WEBHOOK_URL") or os.getenv("GBP_REFRESH_TOKEN"):
+    if os.getenv("MAKE_WEBHOOK_URL"):
+        try:
+            done = via_make(post)
+            print("Sent to Make.com for:", ", ".join(done) or "nothing")
+        except Exception as e:
+            print("Make.com FAILED", e, getattr(getattr(e, "response", None), "text", "")[:300])
+            failed.append("make")
+    handled = set(CFG.get("make_platforms", ["google"])) if os.getenv("MAKE_WEBHOOK_URL") else set()
+    if os.getenv("GBP_REFRESH_TOKEN"):
         os.environ["GOOGLE_READY"] = "1"
     for name in CFG["platforms"]:
+        if name in handled:
+            continue
         fn, needed_secret = PLATFORMS[name]
         if name == "google" and not post.get("google_ok", True):
             print("google: skipped (this post type isn't shown on Google)")
