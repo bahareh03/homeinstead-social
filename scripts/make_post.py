@@ -2,7 +2,7 @@
 import datetime, json, os, pathlib, random, re
 from zoneinfo import ZoneInfo
 import requests, yaml
-from image import make_card, host
+from image import make_card, host, pick_photo
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 CFG = yaml.safe_load((ROOT / "config.yaml").read_text())
@@ -79,7 +79,7 @@ def claude(prompt):
     return json.loads(m.group(0)) if m else None
 
 
-def write(ptype, brief, keywords):
+def write(ptype, brief, keywords, topic=""):
     prompt = (f"You write social posts for {B['name']}, a CQC-regulated home care provider in {B['area']} "
               f"(phone {B['phone']}).\nTask: {brief}\n"
               f"Work in these search phrases naturally, once each: {', '.join(keywords) or 'none'}.\n"
@@ -93,13 +93,23 @@ def write(ptype, brief, keywords):
         return out
     k = (keywords + ["home care in Leeds"] * 3)[:3]
     templates = {
-        "recruitment": ("We're hiring care professionals",
-                        f"Want a job that really matters? We're recruiting care professionals in {B['area']}. "
-                        f"No experience needed: full training, flexible hours and never-rushed visits. "
-                        f"Apply at {B['recruitment_url']}"),
-        "live_in": ("Live-in care, at home",
-                    f"Live-in care means your loved one stays in the home they love, with pets, routines and "
-                    f"one-to-one support. Call {B['phone']} to talk about live-in care in {B['area']}."),
+        "recruitment": ("Do work that truly matters",
+                        f"Want a job where you're never rushed? We're recruiting care professionals in {B['area']}. "
+                        f"No experience needed: full paid training, flexible hours and visits of at least an hour, "
+                        f"so you really get to know the people you support. Apply at {B['recruitment_url']}"),
+        "live_in": ("Stay at home, with care that stays with you",
+                    f"Live-in care means your loved one stays in the home they love, keeping their routines, pets "
+                    f"and neighbours, with one-to-one support day and night. Call {B['phone']} to talk about "
+                    f"live-in care in {B['area']}."),
+        "difference": ("Care that is never rushed",
+                       f"Our visits last at least an hour, with the same familiar care professional, so care is "
+                       f"built on a real relationship. We're rated Good by the CQC in every area. "
+                       f"Looking for {k[0]}? Call {B['phone']}."),
+        "education": (f"Understanding {topic}" if topic else "Understanding later-life health",
+                      f"{topic[:1].upper() + topic[1:] if topic else 'Changes in health'} can feel worrying for families. "
+                      f"Spotting changes early and getting the right support makes a real difference. If you have "
+                      f"concerns, speak to your GP, and if you need support at home in {B['area']}, call us on "
+                      f"{B['phone']}."),
     }
     head, body = templates.get(ptype, ("Care that feels like family",
                  f"Looking for {k[0]}? Our care professionals help older people stay safe and independent "
@@ -121,21 +131,21 @@ def main():
     keywords = ([k for k in KW["top"] if k not in recent] or KW["top"])[:CFG["keywords_per_post"]]
     if ptype == "recruitment":
         keywords = []          # job posts don't need care-service keywords
-    text = write(ptype, brief, keywords)
+    text = write(ptype, brief, keywords, topic)
 
+    photo = None
     if item:                                         # franchisor image used as-is
         image_path = item["image"]
     else:
-        unused = [u for u in KW["own_images"] if u not in H["media"]] or KW["own_images"]
-        bg = random.choice(unused) if unused else None
-        image_path = make_card(text["headline"], B["name"], bg, STATE / f"card-{TODAY}.jpg")
+        photo = pick_photo(ptype, H["media"])
+        image_path = make_card(text["headline"], ptype, photo, STATE / f"card-{TODAY}.jpg", phone=B["phone"])
     image_url = host(image_path, f"{TODAY}-{ptype}.jpg")
 
     post = {"date": str(TODAY), "type": ptype, "topic": topic, "keywords": keywords,
             "headline": text["headline"],
             "social": text["social"].strip() + "\n\n" + CFG["hashtags"],
             "google": text["google"].strip()[:1450],
-            "image_url": image_url, "franchisor_key": item["key"] if item else None,
+            "image_url": image_url, "photo": (photo.name if not item and photo else None), "franchisor_key": item["key"] if item else None,
             "gaps": KW["gaps"][:10]}
     (STATE / "next_post.json").write_text(json.dumps(post, indent=2))
     print(json.dumps(post, indent=2))

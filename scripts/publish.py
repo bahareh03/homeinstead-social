@@ -101,6 +101,8 @@ def main():
         h["published"].append(f"{post['date']} {post['type']} -> {', '.join(done)}")
         h["types"].append(post["type"])
         h["keywords"] += post["keywords"]
+        if post.get("photo"):
+            h["media"].append(post["photo"])
         if post.get("franchisor_key"):
             h["franchisor"].append(post["franchisor_key"])
         hf.write_text(json.dumps(h, indent=2))
