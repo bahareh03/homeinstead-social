@@ -17,8 +17,19 @@ PHOTOS = ROOT / "photos"
 LOGO = ROOT / "assets" / "logo.png"           # white logo (recoloured green on light backgrounds)
 
 W, H = 1080, 1350
-GREEN, DEEP, LIME = (44, 79, 38), (31, 58, 27), (222, 237, 106)   # Home Instead brand
-CREAM, WHITE = (247, 243, 234), (255, 255, 255)
+# Official Home Instead UK palette (hiFC brand page)
+GREEN = (0x2C, 0x4F, 0x26)      # Primary Green "New beginning"  #2C4F26
+LIME = (0xDE, 0xED, 0x6A)       # Lime Green "Friendly"          #DEED6A
+PALE = (0xFA, 0xFF, 0xEE)       # Pale Green "Support"           #FAFFEE
+SKY = (0xA6, 0xD9, 0xFF)        # Sky Blue "Clear Sky"           #A6D9FF
+LILAC = (0xB7, 0xB4, 0xEE)      # Lilac "Serenity"               #B7B4EE
+MIDNIGHT = (0x21, 0x3C, 0x56)   # Midnight Blue "Night Sky"      #213C56
+ORANGE = (0xFA, 0xAC, 0x6E)     # Orange "Bright Future"         #FAAC6E
+TEXT_GREEN = (0x96, 0xB2, 0x63) # Text Green (headers/sub-heads only) #96B263
+DEEP = (31, 58, 27)             # darker shade of primary green for boxes
+CREAM, WHITE = PALE, (255, 255, 255)
+DARK_THEMES = [GREEN, GREEN, MIDNIGHT]          # panel/overlay/myth backgrounds (green most often)
+LIGHT_THEMES = [LIME, SKY, LILAC, ORANGE]       # question-layout backgrounds
 
 EYEBROWS = {"difference": "WHY HOME INSTEAD", "education": "CARE GUIDE", "live_in": "LIVE-IN CARE",
             "recruitment": "WE'RE HIRING", "choice": "HOME CARE IN LEEDS"}
@@ -121,13 +132,13 @@ def load_photo(photo, size, centering=(0.5, 0.35)):
     return ImageOps.fit(im.convert("RGB"), size, centering=centering)
 
 
-def footer(img, phone, dark_bg=True, rule=True):
+def footer(img, phone, dark_bg=True, rule=True, rule_color=None):
     """Logo + 'Leeds Central' + phone along the bottom."""
     d = ImageDraw.Draw(img)
     text_c = WHITE if dark_bg else DEEP
     accent = LIME if dark_bg else GREEN
     if rule:
-        d.line((72, H - 124, W - 72, H - 124), fill=(80, 112, 72) if dark_bg else (200, 196, 180), width=2)
+        d.line((72, H - 124, W - 72, H - 124), fill=rule_color or ((80, 112, 72) if dark_bg else (210, 220, 190)), width=2)
     x = 72
     if LOGO.exists():
         logo = Image.open(LOGO).convert("RGBA")
@@ -149,13 +160,14 @@ def footer(img, phone, dark_bg=True, rule=True):
 
 # ---------- layouts ----------
 def layout_panel(c, photo, phone):
-    img = Image.new("RGB", (W, H), GREEN)
+    bg = random.choice(DARK_THEMES)
+    img = Image.new("RGB", (W, H), bg)
     img.paste(load_photo(photo, (W, 800)), (0, 0))
     d = ImageDraw.Draw(img)
     eyebrow(d, (72, 850), c["eyebrow"], LIME)
     font, size, lines = fit_text(d, c["headline"], (92, 84, 76, 68, 60), W - 144, 3, serif)
     draw_lines(d, (72, 910), lines, font, size, WHITE)
-    footer(img, phone)
+    footer(img, phone, rule_color=(80, 112, 72) if bg == GREEN else (70, 100, 130))
     return img
 
 
@@ -165,7 +177,8 @@ def layout_overlay(c, photo, phone):
     for y in range(H):                                      # transparent top -> deep green bottom
         t = max(0.0, (y - H * 0.38) / (H * 0.45))
         grad.putpixel((0, y), int(min(1.0, t) * 242))
-    img = Image.composite(Image.new("RGB", (W, H), DEEP), img, grad.resize((W, H)))
+    tint = DEEP if random.random() < 0.7 else MIDNIGHT
+    img = Image.composite(Image.new("RGB", (W, H), tint), img, grad.resize((W, H)))
     d = ImageDraw.Draw(img)
     font, size, lines = fit_text(d, c["headline"], (112, 100, 90, 80, 70), W - 144, 3, serif)
     top = H - 160 - len(lines) * int(size * 1.04)
@@ -176,11 +189,12 @@ def layout_overlay(c, photo, phone):
 
 
 def layout_hook(c, photo, phone):
-    img = Image.new("RGB", (W, H), LIME)
+    bg = random.choice(LIGHT_THEMES)
+    img = Image.new("RGB", (W, H), bg)
     d = ImageDraw.Draw(img)
-    eyebrow(d, (72, 90), c["eyebrow"], DEEP)
+    eyebrow(d, (72, 90), c["eyebrow"], DEEP if bg in (LIME, ORANGE) else MIDNIGHT)
     font, size, lines = fit_text(d, c["hook"], (104, 94, 84, 74, 66), W - 144, 3, lambda s: serif(s, italic=True))
-    y = draw_lines(d, (72, 150), lines, font, size, DEEP, 1.04)
+    y = draw_lines(d, (72, 150), lines, font, size, DEEP if bg in (LIME, ORANGE) else MIDNIGHT, 1.04)
     top, bottom, x0, x1 = max(y + 40, 520), H - 150, 72, W - 72   # photo in an arched frame
     ph = load_photo(photo, (x1 - x0, bottom - top))
     mask = Image.new("L", ph.size, 0)
@@ -200,7 +214,8 @@ def layout_checklist(c, photo, phone):
     ph = load_photo(photo, (size, size), centering=(0.5, 0.3))
     mask = Image.new("L", (size, size), 0)
     ImageDraw.Draw(mask).ellipse((0, 0, size, size), fill=255)
-    d.ellipse((W - 72 - size - 12, 60, W - 60, 72 + size), fill=LIME)
+    ring = random.choice([LIME, SKY, LILAC, ORANGE])
+    d.ellipse((W - 72 - size - 12, 60, W - 60, 72 + size), fill=ring)
     img.paste(ph, (W - 72 - size, 72), mask)
     eyebrow(d, (72, 96), c["eyebrow"], GREEN)
     font, fsize, lines = fit_text(d, c["headline"], (84, 76, 68, 60), W - 144 - size - 40, 4, serif)
@@ -214,7 +229,7 @@ def layout_checklist(c, photo, phone):
         ty = y + 46 - (len(plines) * int(psize * 1.25)) / 2
         draw_lines(d, (72 + 130, ty), plines, pf, psize, DEEP, 1.25)
         y += 178
-    d.rounded_rectangle((72, y + 10, W - 72, y + 110), radius=50, fill=LIME)
+    d.rounded_rectangle((72, y + 10, W - 72, y + 110), radius=50, fill=ring)
     note = c.get("note", "Noticed any of these? We're here to help.")
     nf2 = serif(46, italic=True)
     d.text(((W - d.textlength(note, font=nf2)) / 2, y + 32), note, font=nf2, fill=DEEP)
@@ -227,12 +242,12 @@ def layout_myth(c, photo, phone):
     img.paste(load_photo(photo, (W, 500)), (0, 0))
     d = ImageDraw.Draw(img)
     y = 550
-    tracked(d, (72, y), "MYTH", sans(30, 800), (255, 170, 160))
+    tracked(d, (72, y), "MYTH", sans(30, 800), ORANGE)
     font, size, lines = fit_text(d, c["myth"], (60, 54, 48), W - 144, 2, serif)
     y2 = draw_lines(d, (72, y + 50), lines, font, size, (205, 215, 200))
     for i, line in enumerate(lines):                       # strike-through
         ly = y + 50 + i * int(size * 1.08) + int(size * 0.55)
-        d.line((72, ly, 72 + d.textlength(line, font=font), ly), fill=(255, 170, 160), width=4)
+        d.line((72, ly, 72 + d.textlength(line, font=font), ly), fill=ORANGE, width=4)
     y = y2 + 40
     font, size, lines = fit_text(d, c["fact"], (88, 80, 72, 64, 56), W - 192, 3, serif)
     box_end = min(H - 150, y + 96 + len(lines) * int(size * 1.08) + 40)
