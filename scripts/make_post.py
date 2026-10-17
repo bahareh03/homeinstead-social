@@ -155,10 +155,12 @@ def hashtags(ptype, topic, n, existing=""):
 
 
 def clean_for_google(text):
-    t = re.sub(r"\s+#\w+", "", text)
-    t = re.sub(r"https?://\S+|www\.\S+|\S+@\S+|\b(?:\+44\s?|0)\d[\d\s]{8,12}\d\b", "", t)
-    t = re.sub(r"\b(?:Call|Apply at|email|or)\s*(?=[.,!]|$)", "", t, flags=re.I)
-    return re.sub(r"\s{2,}", " ", t).strip()[:1400]
+    """Google posts: no phone numbers, emails, links or hashtags in the text (content policy)."""
+    t = re.sub(r"#\w+", "", text)
+    bad = re.compile(r"https?://|www\.|\S+@\S+|\b(?:\+44\s?|0)\d[\d\s]{8,12}\d\b|link in (?:our )?bio|\bcall\b|\bemail\b|apply at", re.I)
+    parts = re.split(r"(?<=[.!?])\s+|\n+", t)
+    keep = [p.strip() for p in parts if p.strip() and not bad.search(p) and not re.match(r"^[📞✉️🌐]", p.strip())]
+    return re.sub(r"\s{2,}", " ", " ".join(keep)).strip()[:1400]
 
 
 def strip_links_for_instagram(text):
@@ -203,6 +205,8 @@ def main():
         image_path = make_card(text, ptype, photo, STATE / f"card-{TODAY}.jpg", layout=layout,
                                details={"phone": B["phone"], "email": B.get("email"), "web": B.get("website_short")})
     image_url = host(image_path, f"{TODAY}-{ptype}.jpg")
+    g_path = pathlib.Path(image_path).with_name(pathlib.Path(image_path).stem + "-google.jpg")
+    google_image_url = host(g_path, f"{TODAY}-{ptype}-google.jpg") if g_path.exists() else image_url
 
     body = text["body"].strip()
     if text.get("stat") and layout == "stat" and SOURCE not in body and ptype != "franchisor":
@@ -218,7 +222,7 @@ def main():
             # the CALL button carries the number instead.
             "google": clean_for_google(text["google"]),
             "google_ok": ptype in CFG["google_post_types"],
-            "image_url": image_url, "photo": photo.name if photo else None,
+            "image_url": image_url, "google_image_url": google_image_url, "photo": photo.name if photo else None,
             "franchisor_key": item["key"] if item else None, "gaps": KW["gaps"][:10]}
     post["social"] = post["instagram"]
     (STATE / "next_post.json").write_text(json.dumps(post, indent=2))

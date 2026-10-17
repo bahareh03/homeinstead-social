@@ -60,7 +60,7 @@ def google(post):
     if post["type"] == "recruitment":
         cta = {"actionType": "LEARN_MORE", "url": CFG["business"]["recruitment_url"]}
     body = {"languageCode": "en-GB", "topicType": "STANDARD", "summary": post["google"], "callToAction": cta,
-            "media": [{"mediaFormat": "PHOTO", "sourceUrl": post["image_url"]}]}
+            "media": [{"mediaFormat": "PHOTO", "sourceUrl": post.get("google_image_url", post["image_url"])}]}
     r = requests.post(url, json=body, timeout=60, headers={"Authorization": f"Bearer {t.json()['access_token']}"})
     r.raise_for_status()
     return r.json().get("name")
@@ -80,6 +80,7 @@ def via_make(post):
     to = {k: v and k in CFG["platforms"] and k in CFG.get("make_platforms", ["google"]) for k, v in to.items()}
     r = requests.post(os.environ["MAKE_WEBHOOK_URL"], timeout=60, json={
         "summary": post["google"], "image_url": post["image_url"],
+        "google_image_url": post.get("google_image_url", post["image_url"]),
         "cta_type": "LEARN_MORE", "cta_url": cta_url, "phone": b["phone"],
         "facebook_caption": post.get("facebook", post["social"]),
         "instagram_caption": post.get("instagram", post["social"])[:2200],

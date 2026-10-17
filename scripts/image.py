@@ -341,9 +341,11 @@ def make_card(content, ptype, photo, out_path, phone=None, layout="photo_house",
     if details:
         CONTACT.update({k: v for k, v in details.items() if v})
     img = RENDER.get(layout, lay_photo_house)(c, photo)
-    contact(img, MARK_SIDE.get(layout, "left"), layout in ON_PHOTO)
     out_path = pathlib.Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    # Google version: identical design but NO phone/email/website (Google posts content policy)
+    img.save(out_path.with_name(out_path.stem + "-google.jpg"), "JPEG", quality=90)
+    contact(img, MARK_SIDE.get(layout, "left"), layout in ON_PHOTO)
     img.save(out_path, "JPEG", quality=90)
     return out_path
 
