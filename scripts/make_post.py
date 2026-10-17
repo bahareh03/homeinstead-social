@@ -154,6 +154,13 @@ def hashtags(ptype, topic, n, existing=""):
     return " ".join(tags[:max(0, n - len(have))])
 
 
+def clean_for_google(text):
+    t = re.sub(r"\s+#\w+", "", text)
+    t = re.sub(r"https?://\S+|www\.\S+|\S+@\S+|\b(?:\+44\s?|0)\d[\d\s]{8,12}\d\b", "", t)
+    t = re.sub(r"\b(?:Call|Apply at|email|or)\s*(?=[.,!]|$)", "", t, flags=re.I)
+    return re.sub(r"\s{2,}", " ", t).strip()[:1400]
+
+
 def strip_links_for_instagram(text):
     """Instagram captions can't hold clickable links (franchisor plan note)."""
     return re.sub(r"https?://\S+", "the link in our bio", text)
@@ -207,8 +214,9 @@ def main():
             "headline": text["headline"],
             "instagram": (ig + "\n\n" + hashtags(ptype, topic, 5, ig)).strip(),   # Instagram max 5 hashtags
             "facebook": (fb + "\n\n" + hashtags(ptype, topic, 2, fb)).strip(),    # Facebook: 1-3 works best
-            "google": (re.sub(r"\s+#\w+", "", text["google"]).strip()[:1300] +
-                       f"\n\nCall {B['phone']} or email {B['email']}"),
+            # Google posts must NOT contain phone numbers, emails or links in the text (content policy);
+            # the CALL button carries the number instead.
+            "google": clean_for_google(text["google"]),
             "google_ok": ptype in CFG["google_post_types"],
             "image_url": image_url, "photo": photo.name if photo else None,
             "franchisor_key": item["key"] if item else None, "gaps": KW["gaps"][:10]}
