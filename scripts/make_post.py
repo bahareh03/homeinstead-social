@@ -193,19 +193,22 @@ def main():
         layout = pick_layout(ptype, H.get("layouts", []), text, photo)
         if layout in ("text", "stat", "tips"):
             photo = None
-        image_path = make_card(text, ptype, photo, STATE / f"card-{TODAY}.jpg", layout=layout)
+        image_path = make_card(text, ptype, photo, STATE / f"card-{TODAY}.jpg", layout=layout,
+                               details={"phone": B["phone"], "email": B.get("email"), "web": B.get("website_short")})
     image_url = host(image_path, f"{TODAY}-{ptype}.jpg")
 
     body = text["body"].strip()
     if text.get("stat") and layout == "stat" and SOURCE not in body and ptype != "franchisor":
         body += f"\n\n*Source: {text['stat']['source']}."
+    body += f"\n\n📞 {B['phone']}\n✉️ {B['email']}\n🌐 {B['website_short']}"
     ig = limit_hashtags(strip_links_for_instagram(body), 5)
     fb = limit_hashtags(body, 3)
     post = {"date": str(TODAY), "type": ptype, "topic": topic, "keywords": keywords, "layout": layout,
             "headline": text["headline"],
             "instagram": (ig + "\n\n" + hashtags(ptype, topic, 5, ig)).strip(),   # Instagram max 5 hashtags
             "facebook": (fb + "\n\n" + hashtags(ptype, topic, 2, fb)).strip(),    # Facebook: 1-3 works best
-            "google": re.sub(r"\s+#\w+", "", text["google"]).strip()[:1450],
+            "google": (re.sub(r"\s+#\w+", "", text["google"]).strip()[:1300] +
+                       f"\n\nCall {B['phone']} or email {B['email']}"),
             "google_ok": ptype in CFG["google_post_types"],
             "image_url": image_url, "photo": photo.name if photo else None,
             "franchisor_key": item["key"] if item else None, "gaps": KW["gaps"][:10]}

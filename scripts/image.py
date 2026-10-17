@@ -248,7 +248,7 @@ def lay_photo_house_big(c, photo):
     if c.get("sub"):
         rich(d, c["sub"], W / 2, y + 18, 820, WHITE, LIME, size=40, max_lines=2)
     m = house_mark(LIME)
-    img.paste(m, ((W - m.width) // 2, H - 35 - m.height), m)
+    img.paste(m, (35, H - 35 - m.height), m)
     return img
 
 
@@ -276,6 +276,36 @@ def lay_cutout(c, photo):
     corner(img, "br", GREEN, mark=LIME)
     headline(d, c["headline"], W / 2, 110, 850, GREEN, sizes=(96, 84, 74), max_lines=2)
     return img
+
+
+CONTACT = {"phone": "0113 518 3005", "email": "central.leeds@homeinstead.co.uk",
+           "web": "homeinstead.co.uk/leedscentral"}
+# which bottom corner holds the house triangle in each layout (contact details go on the other side)
+MARK_SIDE = {"text": "left", "stat": "left", "tips": "left", "photo_house": "left",
+             "photo_house_big": "left", "photo_corner": "right", "cutout": "right"}
+ON_PHOTO = {"photo_house", "photo_house_big", "photo_corner"}
+
+
+def contact(img, mark_side, on_photo):
+    """Phone, email and website stacked in the bottom corner opposite the house triangle."""
+    d = ImageDraw.Draw(img)
+    lines = [(CONTACT["phone"], sans(34, 700)), (CONTACT["email"], sans(26, 500)), (CONTACT["web"], sans(26, 500))]
+    if on_photo:                                           # soft shade so text stays legible on photos
+        shade = Image.new("L", (W, 260), 0)
+        sd = ImageDraw.Draw(shade)
+        for y in range(260):
+            sd.line((0, y, W, y), fill=int(150 * y / 260))
+        img.paste(Image.new("RGB", (W, 260), (20, 35, 18)), (0, H - 260), shade)
+        d = ImageDraw.Draw(img)
+    bg = img.getpixel((W - 60 if mark_side == "left" else 60, H - 60))
+    light_bg = sum(bg) / 3 > 150
+    ink = GREEN if light_bg else WHITE
+    accent = GREEN if light_bg else LIME
+    y = H - 40 - sum(int(f.size * 1.35) for _, f in lines)
+    for i, (t, f) in enumerate(lines):
+        x = W - 40 - d.textlength(t, font=f) if mark_side == "left" else 40
+        d.text((x, y), t, font=f, fill=accent if i == 0 else ink)
+        y += int(f.size * 1.35)
 
 
 RENDER = {"text": lay_text, "stat": lay_stat, "tips": lay_tips, "photo_house": lay_photo_house,
@@ -306,9 +336,12 @@ def pick_layout(ptype, used, content, photo=None):
     return random.choice([o for o in options if o != last] or options)
 
 
-def make_card(content, ptype, photo, out_path, phone=None, layout="photo_house"):
+def make_card(content, ptype, photo, out_path, phone=None, layout="photo_house", details=None):
     c = {"headline": content} if isinstance(content, str) else dict(content)
+    if details:
+        CONTACT.update({k: v for k, v in details.items() if v})
     img = RENDER.get(layout, lay_photo_house)(c, photo)
+    contact(img, MARK_SIDE.get(layout, "left"), layout in ON_PHOTO)
     out_path = pathlib.Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     img.save(out_path, "JPEG", quality=90)

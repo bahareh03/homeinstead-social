@@ -3,6 +3,8 @@
 business:
   name: "Home Instead Leeds Central"
   phone: "0113 518 3005"
+  email: "central.leeds@homeinstead.co.uk"
+  website_short: "homeinstead.co.uk/leedscentral"     # shown on images
   website: "https://www.homeinstead.co.uk/leedscentral"
   recruitment_url: "https://www.homeinstead.co.uk/leedscentral"   # change to your jobs/apply page
   area: "Leeds"
