@@ -10,7 +10,7 @@ PHOTOS = ROOT / "photos"
 LOGO = ROOT / "assets" / "logo.png"          # optional: drop a transparent PNG here and it replaces the text name
 
 W, H, PANEL_Y = 1080, 1350, 800
-GREEN, DEEP, LIME = (21, 77, 58), (14, 56, 42), (200, 214, 40)
+GREEN, DEEP, LIME = (44, 79, 38), (31, 58, 27), (222, 237, 106)   # Home Instead 'New Beginnings' green & 'Friendly' lime
 CREAM, WHITE = (247, 243, 234), (255, 255, 255)
 
 EYEBROWS = {"difference": "WHY HOME INSTEAD", "education": "CARE GUIDE", "live_in": "LIVE-IN CARE",
@@ -103,11 +103,14 @@ def make_card(headline, ptype, photo, out_path, phone="0113 518 3005", eyebrow=N
         y += int(size * 1.08)
 
     # footer: logo (or name) + phone
-    d.line((72, H - 120, W - 72, H - 120), fill=(60, 110, 92), width=2)
+    d.line((72, H - 124, W - 72, H - 124), fill=(80, 112, 72), width=2)
     if LOGO.exists():
         logo = Image.open(LOGO).convert("RGBA")
-        logo.thumbnail((360, 64))
-        img.paste(logo, (72, H - 96 + (64 - logo.height) // 2), logo)
+        logo.thumbnail((400, 66))
+        img.paste(logo, (72, H - 100 + (66 - logo.height) // 2), logo)
+        x = 72 + logo.width + 24
+        d.line((x, H - 92, x, H - 46), fill=(110, 140, 100), width=2)
+        d.text((x + 24, H - 86), "Leeds Central", font=sans(30, 500), fill=WHITE)
     else:
         d.text((72, H - 92), "Home Instead", font=sans(32, 800), fill=WHITE)
         d.text((72 + d.textlength("Home Instead ", font=sans(32, 800)), H - 92), "Leeds Central",
