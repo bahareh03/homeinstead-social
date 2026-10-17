@@ -27,7 +27,8 @@ weekly_plan:
   6: choice
 
 # Franchisor monthly content: drop files into franchisor/YYYY-MM/
-#   e.g. franchisor/2026-11/winter-wellbeing.jpg + winter-wellbeing.txt (caption)
+#   - the monthly plan .docx (Day / Content Idea / Copy table): posts are designed automatically
+#   - or ready-made images: winter-wellbeing.jpg + winter-wellbeing.txt (caption)
 franchisor:
   per_month: 3
   folder: "franchisor"
@@ -62,6 +63,10 @@ hashtags:
   recruitment: ["#CareJobsLeeds", "#LeedsJobs", "#CareJobs", "#CareerInCare", "#HomeInstead"]
   choice:      ["#HomeCareLeeds", "#CompanionshipCare", "#ElderlyCare", "#HomeInstead", "#Leeds"]
   franchisor:  ["#HomeInstead", "#HomeCareLeeds", "#ElderlyCare", "#CareAtHome", "#Leeds"]
+# National campaign hashtags by month (from the franchisor's monthly plan), added first
+campaign_hashtags:
+  "2026-10": ["#WeekendsWellSpent"]
+
 topic_hashtags:          # added first on educational posts about these topics
   dementia: "#DementiaCare"
   alzheimer: "#Alzheimers"
