@@ -24,6 +24,7 @@ env:
   GBP_REFRESH_TOKEN: ${{ secrets.GBP_REFRESH_TOKEN }}
   GBP_ACCOUNT_ID: ${{ secrets.GBP_ACCOUNT_ID }}
   GBP_LOCATION_ID: ${{ secrets.GBP_LOCATION_ID }}
+  MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
 
 jobs:
   build:

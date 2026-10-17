@@ -42,6 +42,14 @@ def instagram(post):
 
 
 def google(post):
+    if os.getenv("MAKE_WEBHOOK_URL"):            # free route: Make.com publishes to Google for us
+        cta_url = CFG["business"]["recruitment_url"] if post["type"] == "recruitment" else CFG["business"]["website"]
+        r = requests.post(os.environ["MAKE_WEBHOOK_URL"], timeout=60, json={
+            "summary": post["google"], "image_url": post["image_url"],
+            "cta_type": "LEARN_MORE", "cta_url": cta_url, "phone": CFG["business"]["phone"],
+            "type": post["type"], "date": post["date"]})
+        r.raise_for_status()
+        return "sent to Make.com"
     t = requests.post("https://oauth2.googleapis.com/token", timeout=20, data={
         "client_id": os.environ["GBP_CLIENT_ID"], "client_secret": os.environ["GBP_CLIENT_SECRET"],
         "refresh_token": os.environ["GBP_REFRESH_TOKEN"], "grant_type": "refresh_token"})
@@ -60,7 +68,7 @@ def google(post):
 
 PLATFORMS = {"facebook": (facebook, "META_PAGE_TOKEN"),
              "instagram": (instagram, "IG_USER_ID"),
-             "google": (google, "GBP_REFRESH_TOKEN")}
+             "google": (google, "GOOGLE_READY")}
 
 
 def main():
@@ -70,6 +78,8 @@ def main():
     wait_until_live(post["image_url"])
 
     done, failed = [], []
+    if os.getenv("MAKE_WEBHOOK_URL") or os.getenv("GBP_REFRESH_TOKEN"):
+        os.environ["GOOGLE_READY"] = "1"
     for name in CFG["platforms"]:
         fn, needed_secret = PLATFORMS[name]
         if not os.getenv(needed_secret):

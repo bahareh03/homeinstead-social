@@ -27,7 +27,15 @@ Every morning, GitHub Actions creates one post and publishes it **directly** to 
 4. On your computer, run: `python scripts/get_meta_token.py APP_ID APP_SECRET TOKEN_FROM_STEP_3`
    It prints `FB_PAGE_ID`, `META_PAGE_TOKEN` (permanent) and `IG_USER_ID`.
 
-### 2. Google Business Profile (free; Google approval takes a few days)
+### 2. Google Business Profile: free route via Make.com (no Google API approval needed)
+1. Sign up free at make.com → **Create a new scenario**.
+2. Add module **Webhooks → Custom webhook** → *Add* → name it `HI Leeds Google` → copy the URL it shows.
+3. Add a second module **Google Business Profile → Create a Post** → connect your Google account → choose your location.
+   Map: *Summary* = `summary`, *Media URL* (photo) = `image_url`, *Call to action* = `cta_type` / `cta_url`.
+4. Switch the scenario **ON** (scheduling: *Immediately*).
+5. Add the webhook URL to GitHub as secret `MAKE_WEBHOOK_URL`.
+
+### 2b. Google Business Profile: direct API (only if Google approves your API access)
 1. Go to console.cloud.google.com → create a project.
 2. Submit the **Google Business Profile API access request** form (search for "GBP API contact form").
 3. Once approved, enable *Google My Business API*, *My Business Account Management API* and *My Business Business Information API*.
@@ -38,7 +46,7 @@ Every morning, GitHub Actions creates one post and publishes it **directly** to 
 ### 3. Add secrets in GitHub
 Go to Settings → Secrets and variables → Actions → **New repository secret**:
 
-`FB_PAGE_ID`, `META_PAGE_TOKEN`, `IG_USER_ID`, `GBP_CLIENT_ID`, `GBP_CLIENT_SECRET`, `GBP_REFRESH_TOKEN`, `GBP_ACCOUNT_ID`, `GBP_LOCATION_ID`, and optionally `ANTHROPIC_API_KEY`.
+`FB_PAGE_ID`, `META_PAGE_TOKEN`, `IG_USER_ID`, `MAKE_WEBHOOK_URL` (or the direct-API `GBP_CLIENT_ID`, `GBP_CLIENT_SECRET`, `GBP_REFRESH_TOKEN`, `GBP_ACCOUNT_ID`, `GBP_LOCATION_ID`), and optionally `ANTHROPIC_API_KEY`.
 
 A platform with no secrets yet is simply skipped, so you can start with Facebook and Instagram while Google approves.
 
