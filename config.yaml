@@ -1,0 +1,81 @@
+# ---- Daily social auto-post config: edit freely ----
+
+business:
+  name: "Home Instead Leeds Central"
+  phone: "0113 518 3005"
+  website: "https://www.homeinstead.co.uk/leedscentral"
+  recruitment_url: "https://www.homeinstead.co.uk/leedscentral"   # change to your jobs/apply page
+  area: "Leeds"
+  timezone: "Europe/London"
+
+# Publishing: Metricool posts to Facebook, Instagram and Google Business Profile
+metricool:
+  blog_id: "6902455"
+  networks_social: [facebook, instagram]   # get the version with hashtags
+  networks_google: [gmb]                   # gets the version without hashtags
+
+# Approval: first N published posts need your OK (GitHub Issue), then fully automatic
+mode: "approve_first"        # approve_first | draft (always ask) | auto (never ask)
+approvals_required: 5
+
+# ---- Weekly plan (Mon=0 ... Sun=6) ----
+weekly_plan:
+  0: difference       # home care & how we're different
+  1: choice           # franchisor content slot (first 3 Tuesdays) / my pick
+  2: education        # condition older people face
+  3: choice
+  4: live_in
+  5: recruitment
+  6: choice
+
+# Franchisor monthly content: drop files into franchisor/YYYY-MM/
+#   e.g. franchisor/2026-11/winter-wellbeing.jpg + winter-wellbeing.txt (caption)
+franchisor:
+  per_month: 3
+  folder: "franchisor"
+
+education_topics: [Alzheimer's disease, vascular dementia, early signs of dementia, Parkinson's disease,
+  stroke recovery at home, falls prevention, arthritis, type 2 diabetes in later life, loneliness and isolation,
+  sight loss, hearing loss, osteoporosis, COPD, urinary tract infections and confusion, malnutrition and dehydration,
+  sundowning in dementia, delirium after hospital]
+
+# "My pick" days: topics chosen to win against other Leeds home care companies
+choice_topics: [
+  "our CQC 'Good' rating across all five areas and what it means for families",
+  "minimum one-hour visits: never rushed 15-minute calls",
+  "matching each client with a consistent care professional",
+  "home help after a hospital stay in Leeds",
+  "respite to give family carers a proper break",
+  "companionship and beating loneliness in Leeds",
+  "our in-home nail care service",
+  "chairobics and staying active at home",
+  "dementia care that keeps people at home longer than a care home move",
+  "how quickly we can start care after an enquiry",
+  "how our care professionals are trained",
+  "staying connected with the Leeds community: Age Friendly Leeds",
+  "what to ask any home care provider before you choose",
+  "home care vs care home: costs and benefits explained",
+  "a day in the life of a Home Instead care professional"]
+
+hashtags: "#HomeCareLeeds #Leeds #HomeInstead #ElderlyCare #DementiaCare #CareAtHome"
+
+# Keyword research (website + Leeds senior home care / domiciliary care companies, keywords only)
+own_site:
+  start_urls:
+    - "https://www.homeinstead.co.uk/leedscentral"
+    - "https://www.homeinstead.co.uk/leedscentral/local-home-care-services/home-care"
+  allowed_prefix: "https://www.homeinstead.co.uk/leedscentral"
+  max_pages: 40
+competitors:
+  - "https://homecare.co.uk/homecare/listings.cfm/searchtown/Leeds/hctype/elderly-care"
+  - "https://www.careah.co.uk/domiciliary-care-agencies/leeds?page=1"
+  - "https://www.caremark.co.uk/locations/leeds"
+  - "https://www.aegiscaresolutions.co.uk"
+  - "https://www.splendidcaresolutions.co.uk"
+  # add more Leeds home care company websites here (any that fail to load are skipped)
+keyword_refresh_days: 7
+keywords_per_post: 3
+
+seed_terms: [care, carer, dementia, alzheimer, companionship, respite, live-in, overnight,
+             personal, elderly, senior, older, home, palliative, hospital, discharge,
+             mobility, nail, meal, medication, visiting, domiciliary, support, independence]

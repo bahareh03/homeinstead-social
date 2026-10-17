@@ -1,0 +1,77 @@
+name: Daily social post
+
+on:
+  schedule:
+    - cron: "52 7 * * *"       # every day ~08:52 UK time (BST), 07:52 in winter
+  workflow_dispatch: {}          # "Run workflow" button for a manual run
+  issues:
+    types: [labeled]             # approval: add the 'approved' label to publish
+
+permissions:
+  contents: write
+  issues: write
+
+env:
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+  IG_TOKEN: ${{ secrets.IG_TOKEN }}
+  METRICOOL_TOKEN: ${{ secrets.METRICOOL_TOKEN }}
+  METRICOOL_USER_ID: ${{ secrets.METRICOOL_USER_ID }}
+  R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+  R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+  R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+  R2_BUCKET: ${{ secrets.R2_BUCKET }}
+  R2_PUBLIC_URL: ${{ secrets.R2_PUBLIC_URL }}
+
+jobs:
+  build:
+    if: github.event_name != 'issues'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: sudo apt-get install -y fonts-dejavu-core >/dev/null && pip install -r requirements.txt
+      - name: Refresh keywords (weekly)
+        run: |
+          if [ -z "$(find state/keywords.json -mtime -7 2>/dev/null)" ]; then python scripts/keywords.py; fi
+      - run: python scripts/make_post.py
+      - name: Ask for approval, or publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$(python scripts/decide.py)" = "draft" ]; then
+            gh label create approved --color 0E8A16 2>/dev/null || true
+            python scripts/issue_body.py > body.md
+            gh issue create --title "Post for approval: $(date +%a\ %d\ %b)" --body-file body.md
+          else
+            python scripts/publish.py
+          fi
+      - name: Save state
+        run: |
+          git config user.name "post-bot"; git config user.email "bot@users.noreply.github.com"
+          git add state/keywords.json state/history.json 2>/dev/null; git commit -m "Update state" || true
+          git push
+
+  publish-approved:
+    if: github.event_name == 'issues' && github.event.label.name == 'approved'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - name: Extract approved post from issue
+        env:
+          BODY: ${{ github.event.issue.body }}
+        run: |
+          mkdir -p state
+          python -c "import os,re;m=re.search(r'<!--POST\n(.*)\nPOST-->',os.environ['BODY'],re.S);open('state/next_post.json','w').write(m.group(1))"
+      - run: python scripts/publish.py
+      - name: Save history and close issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "post-bot"; git config user.email "bot@users.noreply.github.com"
+          git add state/history.json && git commit -m "Record published post" || true
+          git push
+          gh issue close ${{ github.event.issue.number }} --comment "Published to Facebook, Instagram and Google ✅"
