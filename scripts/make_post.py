@@ -129,7 +129,7 @@ def main():
         unused = [u for u in KW["own_images"] if u not in H["media"]] or KW["own_images"]
         bg = random.choice(unused) if unused else None
         image_path = make_card(text["headline"], B["name"], bg, STATE / f"card-{TODAY}.jpg")
-    image_url = host(image_path, f"posts/{TODAY}-{ptype}{pathlib.Path(image_path).suffix}")
+    image_url = host(image_path, f"{TODAY}-{ptype}.jpg")
 
     post = {"date": str(TODAY), "type": ptype, "topic": topic, "keywords": keywords,
             "headline": text["headline"],

@@ -1,8 +1,10 @@
-"""Make a 1080x1080 branded card and host images on Cloudflare R2 (public URL needed by Instagram/Google)."""
-import io, os, pathlib, textwrap
+"""Make a 1080x1080 branded card, and give images a public link via this (public) GitHub repo."""
+import io, os, pathlib, shutil, textwrap
+from urllib.parse import quote
 import requests
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
+ROOT = pathlib.Path(__file__).resolve().parents[1]
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 NAVY, WHITE = (24, 40, 72), (255, 255, 255)
 
@@ -32,20 +34,21 @@ def make_card(headline, business, bg_url, out_path):
         y += 92
     d.text((60, 990), business, font=_font(38), fill=WHITE)
     out_path = pathlib.Path(out_path)
-    out_path.parent.mkdir(exist_ok=True)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     img.save(out_path, "JPEG", quality=90)
     return out_path
 
 
-def host(path, key):
-    """Upload to Cloudflare R2; return the public URL (None if R2 isn't set up)."""
-    if not os.getenv("R2_ACCESS_KEY_ID"):
-        print("R2 not configured: image saved locally only:", path)
-        return None
-    import boto3
-    s3 = boto3.client("s3", endpoint_url=f"https://{os.environ['R2_ACCOUNT_ID']}.r2.cloudflarestorage.com",
-                      aws_access_key_id=os.environ["R2_ACCESS_KEY_ID"],
-                      aws_secret_access_key=os.environ["R2_SECRET_ACCESS_KEY"], region_name="auto")
-    ctype = "image/png" if str(path).lower().endswith(".png") else "image/jpeg"
-    s3.upload_file(str(path), os.environ["R2_BUCKET"], key, ExtraArgs={"ContentType": ctype})
-    return f"{os.environ['R2_PUBLIC_URL'].rstrip('/')}/{key}"
+def host(path, name):
+    """Place the image in images/ (committed by the workflow) and return its public raw GitHub URL.
+    Franchisor images already live in the repo, so they are linked where they are."""
+    path = pathlib.Path(path).resolve()
+    if ROOT / "images" not in path.parents and ROOT / "franchisor" not in path.parents:
+        dest = ROOT / "images" / name
+        dest.parent.mkdir(exist_ok=True)
+        shutil.copy(path, dest)
+        path = dest
+    rel = path.relative_to(ROOT).as_posix()
+    repo = os.getenv("GITHUB_REPOSITORY", "bahareh03/homeinstead-social")
+    branch = os.getenv("GITHUB_REF_NAME", "main")
+    return f"https://raw.githubusercontent.com/{repo}/{branch}/{quote(rel)}"

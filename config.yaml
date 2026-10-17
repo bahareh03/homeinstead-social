@@ -8,11 +8,9 @@ business:
   area: "Leeds"
   timezone: "Europe/London"
 
-# Publishing: Metricool posts to Facebook, Instagram and Google Business Profile
-metricool:
-  blog_id: "6902455"
-  networks_social: [facebook, instagram]   # get the version with hashtags
-  networks_google: [gmb]                   # gets the version without hashtags
+# Where to publish (free, direct APIs). Remove one to stop posting there.
+# Facebook & Instagram get the version with hashtags; Google gets a cleaner one.
+platforms: [facebook, instagram, google]
 
 # Approval: first N published posts need your OK (GitHub Issue), then fully automatic
 mode: "approve_first"        # approve_first | draft (always ask) | auto (never ask)

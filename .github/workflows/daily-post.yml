@@ -11,16 +11,19 @@ permissions:
   contents: write
   issues: write
 
+concurrency: social-post         # never run two at once
+
 env:
   ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
   IG_TOKEN: ${{ secrets.IG_TOKEN }}
-  METRICOOL_TOKEN: ${{ secrets.METRICOOL_TOKEN }}
-  METRICOOL_USER_ID: ${{ secrets.METRICOOL_USER_ID }}
-  R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-  R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-  R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-  R2_BUCKET: ${{ secrets.R2_BUCKET }}
-  R2_PUBLIC_URL: ${{ secrets.R2_PUBLIC_URL }}
+  FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+  IG_USER_ID: ${{ secrets.IG_USER_ID }}
+  META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+  GBP_CLIENT_ID: ${{ secrets.GBP_CLIENT_ID }}
+  GBP_CLIENT_SECRET: ${{ secrets.GBP_CLIENT_SECRET }}
+  GBP_REFRESH_TOKEN: ${{ secrets.GBP_REFRESH_TOKEN }}
+  GBP_ACCOUNT_ID: ${{ secrets.GBP_ACCOUNT_ID }}
+  GBP_LOCATION_ID: ${{ secrets.GBP_LOCATION_ID }}
 
 jobs:
   build:
@@ -31,10 +34,15 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: sudo apt-get install -y fonts-dejavu-core >/dev/null && pip install -r requirements.txt
+      - run: git config user.name "post-bot" && git config user.email "bot@users.noreply.github.com"
       - name: Refresh keywords (weekly)
         run: |
           if [ -z "$(find state/keywords.json -mtime -7 2>/dev/null)" ]; then python scripts/keywords.py; fi
       - run: python scripts/make_post.py
+      - name: Push image so it has a public link
+        run: |
+          git add images state/keywords.json 2>/dev/null; git commit -m "Image for $(date +%F)" || true
+          git push
       - name: Ask for approval, or publish
         env:
           GH_TOKEN: ${{ github.token }}
@@ -46,11 +54,11 @@ jobs:
           else
             python scripts/publish.py
           fi
-      - name: Save state
+      - name: Save history
+        if: always()
         run: |
-          git config user.name "post-bot"; git config user.email "bot@users.noreply.github.com"
-          git add state/keywords.json state/history.json 2>/dev/null; git commit -m "Update state" || true
-          git push
+          git add state/history.json 2>/dev/null; git commit -m "Update history" || true
+          git push || true
 
   publish-approved:
     if: github.event_name == 'issues' && github.event.label.name == 'approved'
@@ -68,10 +76,11 @@ jobs:
           python -c "import os,re;m=re.search(r'<!--POST\n(.*)\nPOST-->',os.environ['BODY'],re.S);open('state/next_post.json','w').write(m.group(1))"
       - run: python scripts/publish.py
       - name: Save history and close issue
+        if: success()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "post-bot"; git config user.email "bot@users.noreply.github.com"
           git add state/history.json && git commit -m "Record published post" || true
           git push
-          gh issue close ${{ github.event.issue.number }} --comment "Published to Facebook, Instagram and Google ✅"
+          gh issue close ${{ github.event.issue.number }} --comment "Published ✅"

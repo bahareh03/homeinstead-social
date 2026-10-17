@@ -2,4 +2,3 @@ requests
 pyyaml
 beautifulsoup4
 pillow
-boto3

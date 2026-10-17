@@ -1,6 +1,6 @@
 # Daily social posts: Home Instead Leeds Central
 
-Every morning, GitHub Actions creates one post and publishes it to **Facebook, Instagram and Google Business Profile** through Metricool.
+Every morning, GitHub Actions creates one post and publishes it **directly** to Facebook, Instagram and Google Business Profile. Everything uses free APIs, so it costs **£0 a month** (plus an optional Claude key at pennies per post).
 
 | Day | Post |
 |---|---|
@@ -12,33 +12,38 @@ Every morning, GitHub Actions creates one post and publishes it to **Facebook, I
 | Sat | Recruitment |
 | Sun | Competitive topic |
 
-- **Keywords:** these come weekly from your website and from Leeds senior home care / domiciliary care companies. Only keywords are taken, never their text or images.
-- **Images:** each post gets a branded image built from your website photos. Franchisor posts use the franchisor's image.
 - **Approval:** the **first 5 posts** each open a GitHub Issue. Add the `approved` label to publish it, or close the issue to skip it. After that, posts publish automatically.
-- **Changes:** edit `config.yaml` to change days, topics, hashtags or competitors.
+- **Failures:** if a platform fails, GitHub emails you and the other platforms still post.
+- **Changes:** edit `config.yaml` to change days, topics, hashtags, competitors or platforms.
+- **Images:** they're stored in `images/` and served from this repository, which must be **public**. Keys stay private in GitHub Secrets.
 
-## One-off setup (about 1 hour)
+## Setup
 
-1. **Metricool**: connect Facebook, Instagram (business account) and Google Business Profile at
-   https://app.metricool.com/brands/connections?blogId=6902455. Then get your API token and user ID under Account settings → API. API access is only on Metricool's higher plans, so check yours.
-2. **Cloudflare R2** (free) holds the images, because Instagram and Google need a public link:
-   - Go to dash.cloudflare.com → R2 → create a bucket, e.g. `homeinstead-posts`.
-   - In the bucket settings, turn on the **Public r2.dev URL**.
-   - Go to R2 → Manage API tokens → create a token with *Object Read & Write*.
-3. **Claude API key** from console.anthropic.com. This is strongly recommended for daily posts. Without it, posts use basic templates that repeat.
-4. **GitHub**: create a **private** repo, upload this folder, and add these secrets (Settings → Secrets and variables → Actions):
+### 1. Facebook + Instagram (one free Meta app, ~20 min)
+1. Make sure your Instagram is a **Business** account and is linked to your Facebook Page. You can do both in the Instagram app → Settings → Account type / Linked accounts.
+2. Go to developers.facebook.com → **Create app** → choose type **Business**, and note the App ID and App Secret.
+3. Open developers.facebook.com/tools/explorer, select your app, and click **Generate Access Token** with these permissions:
+   `pages_show_list, pages_manage_posts, pages_read_engagement, instagram_basic, instagram_content_publish`
+4. On your computer, run: `python scripts/get_meta_token.py APP_ID APP_SECRET TOKEN_FROM_STEP_3`
+   It prints `FB_PAGE_ID`, `META_PAGE_TOKEN` (permanent) and `IG_USER_ID`.
 
-| Secret | Where from |
-|---|---|
-| `METRICOOL_TOKEN`, `METRICOOL_USER_ID` | Metricool → Account settings → API |
-| `R2_ACCOUNT_ID` | Cloudflare dashboard (right-hand side) |
-| `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY` | The R2 API token |
-| `R2_BUCKET` | Bucket name |
-| `R2_PUBLIC_URL` | The bucket's `https://pub-….r2.dev` address |
-| `ANTHROPIC_API_KEY` | console.anthropic.com |
+### 2. Google Business Profile (free; Google approval takes a few days)
+1. Go to console.cloud.google.com → create a project.
+2. Submit the **Google Business Profile API access request** form (search for "GBP API contact form").
+3. Once approved, enable *Google My Business API*, *My Business Account Management API* and *My Business Business Information API*.
+4. Go to **APIs & Services → OAuth consent screen**, choose External, then click **Publish app**. While the app is left in "Testing", the token expires after 7 days.
+5. Go to **Credentials → Create OAuth client ID** (Desktop app) and download `client_secret.json`.
+6. Run `python scripts/get_google_token.py client_secret.json` and sign in with the account that manages the profile. It prints all five `GBP_…` values.
 
-5. In `config.yaml`, set `recruitment_url` to your jobs page.
-6. **Test**: go to Actions → *Daily social post* → **Run workflow**. An approval issue should appear.
+### 3. Add secrets in GitHub
+Go to Settings → Secrets and variables → Actions → **New repository secret**:
+
+`FB_PAGE_ID`, `META_PAGE_TOKEN`, `IG_USER_ID`, `GBP_CLIENT_ID`, `GBP_CLIENT_SECRET`, `GBP_REFRESH_TOKEN`, `GBP_ACCOUNT_ID`, `GBP_LOCATION_ID`, and optionally `ANTHROPIC_API_KEY`.
+
+A platform with no secrets yet is simply skipped, so you can start with Facebook and Instagram while Google approves.
+
+### 4. Test
+Go to Actions → *Daily social post* → **Run workflow**.
 
 ## Monthly franchisor content
 Upload it to `franchisor/YYYY-MM/` (see `franchisor/README.md`).
