@@ -18,7 +18,7 @@ make_platforms: [google, facebook, instagram]
 # Google posting is PAUSED: Google suspended posting on the profile (18 Oct 2026). Re-add only after it's restored.
 
 # Approval: first N published posts need your OK (GitHub Issue), then fully automatic
-mode: "approve_first"        # approve_first | draft (always ask) | auto (never ask)
+mode: "auto"                 # posts publish automatically (approve_first | draft | auto)
 approvals_required: 5
 
 # ---- Weekly plan (Mon=0 ... Sun=6) ----
