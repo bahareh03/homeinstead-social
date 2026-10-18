@@ -12,10 +12,9 @@ business:
 
 # Where to publish (free, direct APIs). Remove one to stop posting there.
 # Facebook & Instagram get the version with hashtags; Google gets a cleaner one.
-platforms: [facebook, instagram]
+platforms: [facebook, instagram, google]
 # Platforms the Make.com scenario posts to (the rest use the direct APIs, if their keys are set)
 make_platforms: [google, facebook, instagram]
-# Google posting is PAUSED: Google suspended posting on the profile (18 Oct 2026). Re-add only after it's restored.
 
 # Approval: first N published posts need your OK (GitHub Issue), then fully automatic
 mode: "auto"                 # posts publish automatically (approve_first | draft | auto)
