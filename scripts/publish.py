@@ -141,6 +141,7 @@ def main():
         if post.get("franchisor_key"):
             h["franchisor"].append(post["franchisor_key"])
         hf.write_text(json.dumps(h, indent=2))
+    (STATE / "publish_result.json").write_text(json.dumps({"done": done, "failed": failed}))
     if failed:
         raise SystemExit(f"Failed: {failed}")
     if not done:

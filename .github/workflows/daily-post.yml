@@ -55,6 +55,16 @@ jobs:
           else
             python scripts/publish.py
           fi
+      - name: Daily report (emailed by GitHub)
+        if: always() && hashFiles('state/next_post.json') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f state/publish_result.json ] || [ "${{ github.event_name }}" = "issues" ]; then
+            python scripts/report.py
+            gh label create report --color 1D76DB 2>/dev/null || true
+            gh issue create --title "$(cat state/report_title.txt)" --body-file state/report.md --label report
+          fi
       - name: Save history
         if: always()
         run: |
@@ -76,6 +86,16 @@ jobs:
           mkdir -p state
           python -c "import os,re;m=re.search(r'<!--POST\n(.*)\nPOST-->',os.environ['BODY'],re.S);open('state/next_post.json','w').write(m.group(1))"
       - run: python scripts/publish.py
+      - name: Daily report (emailed by GitHub)
+        if: always() && hashFiles('state/next_post.json') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f state/publish_result.json ] || [ "${{ github.event_name }}" = "issues" ]; then
+            python scripts/report.py
+            gh label create report --color 1D76DB 2>/dev/null || true
+            gh issue create --title "$(cat state/report_title.txt)" --body-file state/report.md --label report
+          fi
       - name: Save history and close issue
         if: success()
         env:
@@ -84,4 +104,4 @@ jobs:
           git config user.name "post-bot"; git config user.email "bot@users.noreply.github.com"
           git add state/history.json && git commit -m "Record published post" || true
           git push
-          gh issue close ${{ github.event.issue.number }} --comment "Published ✅"
+          gh issue close ${{ github.event.issue.number }} --comment "Published ✅ (see the daily report issue)"
