@@ -39,12 +39,21 @@ jobs:
       - name: Refresh keywords (weekly)
         run: |
           if [ -z "$(find state/keywords.json -mtime -7 2>/dev/null)" ]; then python scripts/keywords.py; fi
+      - name: Only one post per day
+        id: today
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && ls images/$(TZ=Europe/London date +%F)-*.jpg >/dev/null 2>&1; then
+            echo "Already posted today, skipping"; echo "skip=1" >> $GITHUB_OUTPUT
+          fi
       - run: python scripts/make_post.py
+        if: steps.today.outputs.skip != '1'
       - name: Push image so it has a public link
+        if: steps.today.outputs.skip != '1'
         run: |
           git add images state/keywords.json 2>/dev/null; git commit -m "Image for $(date +%F)" || true
           git push
       - name: Ask for approval, or publish
+        if: steps.today.outputs.skip != '1'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
