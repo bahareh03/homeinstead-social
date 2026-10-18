@@ -115,9 +115,10 @@ def write(ptype, brief, keywords, topic, area):
             out["body"] = (f"{topic[:1].upper() + topic[1:]} can feel worrying for families. Spotting changes early "
                            "makes a real difference. If you're concerned, speak to their GP.")
         k = keywords[0] if keywords else "home care in Leeds"
-        tail = (f" Apply at {B['recruitment_url']}" if ptype == "recruitment"
-                else f" Supporting families in {area} and across Leeds. Call {B['phone']} for a friendly chat.")
-        out["google"] = out["body"] + ("" if ptype == "recruitment" else f" Looking for {k}?") + tail
+        tail = (f" Looking for {k}? Apply at {B['recruitment_url']}" if ptype == "recruitment"
+                else f" Looking for {k}? Our local team supports families in {area} and across Leeds. "
+                     f"Call {B['phone']} for a friendly chat.")
+        out["google"] = out["body"] + tail
         out["body"] = out["body"] + tail
     if ptype in ("difference", "choice"):                       # verified Home Instead/YouGov figure
         st = dict(STATS[H["types"].count(ptype) % len(STATS)], source=SOURCE)
@@ -152,6 +153,16 @@ def hashtags(ptype, topic, n, existing=""):
                 tags.insert(0, tag)
     tags = [t for t in dict.fromkeys(tags) if t.lower() not in {h.lower() for h in have}]
     return " ".join(tags[:max(0, n - len(have))])
+
+
+def pick_keywords(ptype):
+    """Rotate through the curated search phrases for this post type (main phrase + 1 related)."""
+    pri = CFG.get("priority_keywords", {}).get(ptype) or CFG["priority_keywords"]["difference"]
+    i = H["types"].count(ptype)
+    picks = [pri[i % len(pri)]]
+    if len(pri) > 1 and ptype != "recruitment":
+        picks.append(pri[(i + 1) % len(pri)])
+    return picks
 
 
 def clean_for_google(text):
@@ -189,9 +200,7 @@ def main():
         brief = BRIEFS[ptype].format(topic=topic, recruitment_url=B["recruitment_url"], caption="")
         if ptype == "choice" and KW["gaps"]:
             brief += f" If natural, also cover something competitors mention that we rarely do: {KW['gaps'][0]}."
-        recent = set(H["keywords"][-60:])
-        keywords = [] if ptype == "recruitment" else \
-            ([k for k in KW["top"] if k not in recent] or KW["top"])[:CFG["keywords_per_post"]]
+        keywords = pick_keywords(ptype)
         text = write(ptype, brief, keywords, topic, area)
 
     photo, layout = None, "franchisor image"

@@ -103,6 +103,15 @@ competitors:
   # add more Leeds home care company websites here (any that fail to load are skipped)
 keyword_refresh_days: 7
 keywords_per_post: 3
+# Phrases Leeds families actually search for. These are used first, rotated across posts
+# (the weekly scrape only adds extra phrases that also appear on our own site).
+priority_keywords:
+  difference:  ["home care in Leeds", "domiciliary care in Leeds", "elderly care at home", "home care agency in Leeds"]
+  choice:      ["companionship care", "respite care in Leeds", "home help for the elderly", "care after a hospital stay", "personal care at home"]
+  live_in:     ["live-in care in Leeds", "24-hour care at home", "alternative to a care home"]
+  education:   ["dementia care in Leeds", "Alzheimer's support at home", "elderly care at home"]
+  recruitment: ["care jobs in Leeds", "carer jobs Leeds", "home care jobs"]
+  franchisor:  ["home care in Leeds"]
 
 seed_terms: [care, carer, dementia, alzheimer, companionship, respite, live-in, overnight,
              personal, elderly, senior, older, home, palliative, hospital, discharge,
