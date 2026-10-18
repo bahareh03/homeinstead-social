@@ -165,6 +165,25 @@ def pick_keywords(ptype):
     return picks
 
 
+def google_seo(text, ptype, keywords, area):
+    """Google ranks Business Profile posts on their words (it ignores hashtags), so every Google post
+    ends with the service + Leeds area phrases people actually search for. No phone/email/links."""
+    kws = list(keywords)
+    if ptype == "franchisor":
+        kws = pick_keywords("franchisor") + pick_keywords("difference")
+    kws = [k for k in dict.fromkeys(kws) if k.lower() not in text.lower()]
+    areas = CFG["areas"]
+    a2 = areas[(areas.index(area) + 1) % len(areas)] if area in areas else "Leeds city centre"
+    name = B["name"]
+    if not kws:
+        line = f"{name} supports families in {area}, {a2} and across Leeds."
+    elif len(kws) == 1:
+        line = f"{name} provides {kws[0]} for families in {area}, {a2} and across Leeds."
+    else:
+        line = f"{name} provides {kws[0]} and {kws[1]} for families in {area}, {a2} and across Leeds."
+    return (text.rstrip() + " " + line + " Tap Learn more to find out how we can help.").strip()[:1500]
+
+
 def clean_for_google(text):
     """Google posts: no phone numbers, emails, links or hashtags in the text (content policy)."""
     t = re.sub(r"#\w+", "", text)
@@ -229,7 +248,7 @@ def main():
             "facebook": (fb + "\n\n" + hashtags(ptype, topic, 2, fb)).strip(),    # Facebook: 1-3 works best
             # Google posts must NOT contain phone numbers, emails or links in the text (content policy);
             # the CALL button carries the number instead.
-            "google": clean_for_google(text["google"]),
+            "google": google_seo(clean_for_google(text["google"]), ptype, keywords, area),
             "google_ok": ptype in CFG["google_post_types"],
             "image_url": image_url, "google_image_url": google_image_url, "photo": photo.name if photo else None,
             "franchisor_key": item["key"] if item else None, "gaps": KW["gaps"][:10]}
