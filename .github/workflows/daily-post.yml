@@ -88,15 +88,25 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install -r requirements.txt
+      - name: Stop if this post was already published
+        id: guard
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$(gh issue view ${{ github.event.issue.number }} --json state --jq .state)" = "CLOSED" ]; then
+            echo "Already published or skipped, nothing to do"; echo "stop=1" >> $GITHUB_OUTPUT
+          fi
       - name: Extract approved post from issue
+        if: steps.guard.outputs.stop != '1'
         env:
           BODY: ${{ github.event.issue.body }}
         run: |
           mkdir -p state
           python -c "import os,re;m=re.search(r'<!--POST\n(.*)\nPOST-->',os.environ['BODY'],re.S);open('state/next_post.json','w').write(m.group(1))"
       - run: python scripts/publish.py
+        if: steps.guard.outputs.stop != '1'
       - name: Daily report (emailed by GitHub)
-        if: always() && hashFiles('state/next_post.json') != ''
+        if: always() && steps.guard.outputs.stop != '1' && hashFiles('state/next_post.json') != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -106,7 +116,7 @@ jobs:
             gh issue create --title "$(cat state/report_title.txt)" --body-file state/report.md --label report
           fi
       - name: Save history and close issue
-        if: success()
+        if: success() && steps.guard.outputs.stop != '1'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
