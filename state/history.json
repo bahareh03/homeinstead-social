@@ -5,6 +5,9 @@
     "care services",
     "care at home",
     "live-in care",
+    "home instead",
+    "care at home",
+    "live-in care",
     "home instead"
   ],
   "media": [
@@ -13,15 +16,18 @@
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
+    "2026-10-18 choice -> facebook, instagram",
     "2026-10-18 choice -> facebook, instagram"
   ],
   "types": [
+    "choice",
     "choice",
     "choice"
   ],
   "franchisor": [],
   "layouts": [
     "photo_house",
-    "photo_corner"
+    "photo_corner",
+    "text"
   ]
 }
