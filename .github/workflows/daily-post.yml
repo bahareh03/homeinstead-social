@@ -2,7 +2,10 @@ name: Daily social post
 
 on:
   schedule:
-    - cron: "52 7 * * *"       # every day ~08:52 UK time (BST), 07:52 in winter
+    # GitHub often starts scheduled runs late, so start early and wait until exactly 08:00 UK time
+    # (works in both summer and winter time). The second start is a backup; the daily guard stops doubles.
+    - cron: "0 5 * * *"
+    - cron: "30 6 * * *"
   workflow_dispatch: {}          # "Run workflow" button for a manual run
   issues:
     types: [labeled]             # approval: add the 'approved' label to publish
@@ -52,6 +55,11 @@ jobs:
         run: |
           git add images state/keywords.json 2>/dev/null; git commit -m "Image for $(date +%F)" || true
           git push
+      - name: Wait until 08:00 UK time
+        if: steps.today.outputs.skip != '1' && github.event_name == 'schedule'
+        run: |
+          secs=$(( $(TZ=Europe/London date -d "08:00" +%s) - $(date +%s) ))
+          if [ $secs -gt 0 ]; then echo "Waiting $secs seconds"; sleep $secs; fi
       - name: Ask for approval, or publish
         if: steps.today.outputs.skip != '1'
         env:
