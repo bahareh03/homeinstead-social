@@ -2,19 +2,26 @@
   "keywords": [
     "home care",
     "care in leeds",
-    "care services"
+    "care services",
+    "care at home",
+    "live-in care",
+    "home instead"
   ],
   "media": [
-    "education-choice__puzzles-together.jpg"
+    "education-choice__puzzles-together.jpg",
+    "difference-choice-live_in__family-sofa.jpg"
   ],
   "published": [
-    "2026-10-18 choice -> google, facebook, instagram"
+    "2026-10-18 choice -> google, facebook, instagram",
+    "2026-10-18 choice -> facebook, instagram"
   ],
   "types": [
+    "choice",
     "choice"
   ],
   "franchisor": [],
   "layouts": [
-    "photo_house"
+    "photo_house",
+    "photo_corner"
   ]
 }
