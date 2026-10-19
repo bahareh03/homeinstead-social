@@ -120,9 +120,10 @@ def write(ptype, brief, keywords, topic, area):
                      f"Call {B['phone']} for a friendly chat.")
         out["google"] = out["body"] + tail
         out["body"] = out["body"] + tail
-    if ptype in ("difference", "choice"):                       # verified Home Instead/YouGov figure
-        st = dict(STATS[H["types"].count(ptype) % len(STATS)], source=SOURCE)
-        out["stat"] = st
+    # A statistic is only used when it was written for this exact wording (paired in the content bank),
+    # so the image and the caption always say the same thing.
+    if out.get("stat"):
+        out["stat"] = dict(out["stat"], source=SOURCE)
     return out
 
 
@@ -237,8 +238,14 @@ def main():
     google_image_url = host(g_path, f"{TODAY}-{ptype}-google.jpg") if g_path.exists() else image_url
 
     body = text["body"].strip()
-    if text.get("stat") and layout == "stat" and SOURCE not in body and ptype != "franchisor":
-        body += f"\n\n*Source: {text['stat']['source']}."
+    if text.get("stat") and layout == "stat" and ptype != "franchisor":
+        st = text["stat"]
+        fact = f"{st['number']} {st['text'].replace('**', '')}"
+        if st["number"] not in body:                 # caption opens with the same figure as the image
+            body = f"Did you know? {fact}.*\n\n{body}"
+            text["google"] = f"Did you know? {fact}. {text['google']}"
+        if SOURCE not in body:
+            body += f"\n\n*Source: {st['source']}."
     body += f"\n\n📞 {B['phone']}\n✉️ {B['email']}\n🌐 {B['website_short']}"
     ig = limit_hashtags(strip_links_for_instagram(body), 5)
     fb = limit_hashtags(body, 3)
