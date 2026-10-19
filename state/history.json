@@ -11,7 +11,9 @@
     "home instead",
     "care at home",
     "live-in care",
-    "home instead"
+    "home instead",
+    "home care in Leeds",
+    "domiciliary care in Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -22,19 +24,22 @@
     "2026-10-18 choice -> google, facebook, instagram",
     "2026-10-18 choice -> facebook, instagram",
     "2026-10-18 choice -> facebook, instagram",
-    "2026-10-18 choice -> facebook, instagram"
+    "2026-10-18 choice -> facebook, instagram",
+    "2026-10-19 difference -> google, facebook, instagram"
   ],
   "types": [
     "choice",
     "choice",
     "choice",
-    "choice"
+    "choice",
+    "difference"
   ],
   "franchisor": [],
   "layouts": [
     "photo_house",
     "photo_corner",
     "text",
-    "photo_corner"
+    "photo_corner",
+    "stat"
   ]
 }
