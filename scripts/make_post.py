@@ -34,7 +34,13 @@ def franchisor_item():
             cap = img.with_suffix(".txt")
             return {"key": key, "image": img, "caption": cap.read_text().strip() if cap.exists() else ""}
     plan = [i for i in franchisor_plan.load(folder, B) if f"{MONTH}/{i['key']}" not in H["franchisor"]]
-    upcoming = [i for i in plan if franchisor_plan.day_number(i["day"]) >= TODAY.day] or plan
+    # Prefer franchisor posts with a real care message (care, carers, research) over chatty
+    # engagement posts ("share your favourite spot in the comments").
+    care = re.compile(r"\bcar(e|er|ers|ing)\b|care pro|companionship|research|\d+%", re.I)
+    chat = re.compile(r"in the comments|recommend|what does your|what do you enjoy", re.I)
+    def score(i):
+        return (bool(care.search(i["copy"])) and not chat.search(i["copy"]), -abs(franchisor_plan.day_number(i["day"]) - TODAY.day))
+    upcoming = sorted(plan, key=score, reverse=True)
     if upcoming:
         i = upcoming[0]
         return {"key": f"{MONTH}/{i['key']}", "image": None, "caption": i["copy"], "idea": i["idea"]}
@@ -43,7 +49,9 @@ def franchisor_item():
 
 def post_type():
     t = CFG["weekly_plan"][TODAY.weekday()]
-    if t == "choice" and (TODAY.weekday() == 1 or TODAY.day >= 22):   # Tuesdays, or catch-up late in month
+    # Franchisor content is mostly 'Weekends Well Spent', so it goes out on Thursdays (run-up to the
+    # weekend), with a Sunday catch-up late in the month if fewer than 3 have gone out.
+    if t == "choice" and (TODAY.weekday() == 3 or (TODAY.weekday() == 6 and TODAY.day >= 22)):
         item = franchisor_item()
         if item:
             return "franchisor", item

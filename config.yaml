@@ -23,9 +23,9 @@ approvals_required: 5
 # ---- Weekly plan (Mon=0 ... Sun=6) ----
 weekly_plan:
   0: difference       # home care & how we're different
-  1: choice           # franchisor content slot (first 3 Tuesdays) / my pick
+  1: choice           # my pick (competitive topics)
   2: education        # condition older people face
-  3: choice
+  3: choice           # franchisor content slot (Thursdays, run-up to the weekend)
   4: live_in
   5: recruitment
   6: choice
