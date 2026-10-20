@@ -246,13 +246,26 @@ def main():
             text["google"] = f"Did you know? {fact}. {text['google']}"
         if SOURCE not in body:
             body += f"\n\n*Source: {st['source']}."
+    lead_tag = ""
+    if ptype == "franchisor":
+        # The franchisor's copy is often a seasonal/engagement post with no care message, so every
+        # franchisor post gets a local care paragraph with the search phrases families use.
+        found = re.findall(r"#\w+", body)
+        lead_tag = found[0] if found else ""
+        body = re.sub(r"[ \t]*#\w+", "", body).strip()
+        kws = [k for k in dict.fromkeys(pick_keywords("franchisor") + pick_keywords("difference"))][:2]
+        keywords = kws
+        body += (f"\n\nAt {B['name']}, we help older people in {area} and across Leeds keep enjoying the "
+                 f"moments that matter at home. Our {kws[0]} is never rushed: visits of at least an hour, "
+                 f"with the same familiar Care Pro every time. Looking for {kws[1]} for a loved one? "
+                 "Get in touch for a friendly, no-obligation chat. 💚")
     body += f"\n\n📞 {B['phone']}\n✉️ {B['email']}\n🌐 {B['website_short']}"
     ig = limit_hashtags(strip_links_for_instagram(body), 5)
     fb = limit_hashtags(body, 3)
     post = {"date": str(TODAY), "type": ptype, "topic": topic, "keywords": keywords, "layout": layout,
             "headline": text["headline"],
-            "instagram": (ig + "\n\n" + hashtags(ptype, topic, 5, ig)).strip(),   # Instagram max 5 hashtags
-            "facebook": (fb + "\n\n" + hashtags(ptype, topic, 2, fb)).strip(),    # Facebook: 1-3 works best
+            "instagram": (ig + "\n\n" + " ".join(filter(None, [lead_tag, hashtags(ptype, topic, 5 - bool(lead_tag), ig)]))).strip(),
+            "facebook": (fb + "\n\n" + " ".join(filter(None, [lead_tag, hashtags(ptype, topic, 2, fb)]))).strip(),
             # Google posts must NOT contain phone numbers, emails or links in the text (content policy);
             # the CALL button carries the number instead.
             "google": google_seo(clean_for_google(text["google"]), ptype, keywords, area),
