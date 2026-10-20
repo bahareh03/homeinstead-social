@@ -18,28 +18,34 @@
   "media": [
     "education-choice__puzzles-together.jpg",
     "difference-choice-live_in__family-sofa.jpg",
-    "difference-choice-live_in__family-sofa.jpg"
+    "difference-choice-live_in__family-sofa.jpg",
+    "difference-choice__family-kitchen.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
     "2026-10-18 choice -> facebook, instagram",
     "2026-10-18 choice -> facebook, instagram",
     "2026-10-18 choice -> facebook, instagram",
-    "2026-10-19 difference -> google, facebook, instagram"
+    "2026-10-19 difference -> google, facebook, instagram",
+    "2026-10-20 franchisor -> google, facebook, instagram"
   ],
   "types": [
     "choice",
     "choice",
     "choice",
     "choice",
-    "difference"
+    "difference",
+    "franchisor"
   ],
-  "franchisor": [],
+  "franchisor": [
+    "2026-10/October_Local_Social_Media_Plan/20th October"
+  ],
   "layouts": [
     "photo_house",
     "photo_corner",
     "text",
     "photo_corner",
-    "stat"
+    "stat",
+    "photo_corner"
   ]
 }
