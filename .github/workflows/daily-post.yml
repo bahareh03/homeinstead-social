@@ -6,7 +6,15 @@ on:
     # (works in both summer and winter time). The second start is a backup; the daily guard stops doubles.
     - cron: "0 5 * * *"
     - cron: "30 6 * * *"
-  workflow_dispatch: {}          # "Run workflow" button for a manual run
+  workflow_dispatch:             # "Run workflow" button for a manual run
+    inputs:
+      resend_date:
+        description: "Only resend an earlier post: its date (YYYY-MM-DD). Leave empty for a normal post."
+        required: false
+      resend_only:
+        description: "Platforms to resend to, e.g. instagram"
+        required: false
+        default: "instagram"
   issues:
     types: [labeled]             # approval: add the 'approved' label to publish
 
@@ -30,8 +38,22 @@ env:
   MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
 
 jobs:
+  resend:
+    if: github.event_name == 'workflow_dispatch' && inputs.resend_date != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - run: python scripts/resend.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESEND_DATE: ${{ inputs.resend_date }}
+          RESEND_ONLY: ${{ inputs.resend_only }}
+
   build:
-    if: github.event_name != 'issues'
+    if: github.event_name != 'issues' && !(github.event_name == 'workflow_dispatch' && inputs.resend_date != '')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
