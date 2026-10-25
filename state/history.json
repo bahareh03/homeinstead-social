@@ -20,7 +20,9 @@
     "domiciliary care in Leeds",
     "live-in care in Leeds",
     "24-hour care at home",
-    "care jobs in Leeds"
+    "care jobs in Leeds",
+    "home care in Leeds",
+    "domiciliary care in Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -30,7 +32,8 @@
     "education-recruitment__carer-medication.jpg",
     "choice-difference-recruitment__trips-out.jpg",
     "live_in-choice-difference__daughter-dad-sofa.jpg",
-    "recruitment-choice-difference__laughing-together.jpg"
+    "recruitment-choice-difference__laughing-together.jpg",
+    "choice-education__daughter-phone.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -42,7 +45,8 @@
     "2026-10-21 education -> facebook, instagram",
     "2026-10-22 franchisor -> google, facebook, instagram",
     "2026-10-23 live_in -> google, facebook, instagram",
-    "2026-10-24 recruitment -> facebook, instagram"
+    "2026-10-24 recruitment -> facebook, instagram",
+    "2026-10-25 franchisor -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -54,11 +58,13 @@
     "education",
     "franchisor",
     "live_in",
-    "recruitment"
+    "recruitment",
+    "franchisor"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
-    "2026-10/October_Local_Social_Media_Plan/13th October"
+    "2026-10/October_Local_Social_Media_Plan/13th October",
+    "2026-10/October_Local_Social_Media_Plan/31st October"
   ],
   "layouts": [
     "photo_house",
@@ -70,6 +76,7 @@
     "photo_house_big",
     "photo_corner",
     "photo_house",
-    "photo_house_big"
+    "photo_house_big",
+    "photo_corner"
   ]
 }
