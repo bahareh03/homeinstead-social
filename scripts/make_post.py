@@ -40,6 +40,9 @@ def franchisor_item():
     chat = re.compile(r"in the comments|recommend|what does your|what do you enjoy", re.I)
     def score(i):
         return (bool(care.search(i["copy"])) and not chat.search(i["copy"]), -abs(franchisor_plan.day_number(i["day"]) - TODAY.day))
+    # Never post a franchisor item before its planned date (e.g. Halloween a week early), and skip
+    # ones that are more than 10 days old.
+    plan = [i for i in plan if TODAY.day - 10 <= franchisor_plan.day_number(i["day"]) <= TODAY.day + 1]
     upcoming = sorted(plan, key=score, reverse=True)
     if upcoming:
         i = upcoming[0]
@@ -261,12 +264,12 @@ def main():
         found = re.findall(r"#\w+", body)
         lead_tag = found[0] if found else ""
         body = re.sub(r"[ \t]*#\w+", "", body).strip()
+        body = "\n".join(l for l in body.splitlines() if not re.search(r"https?://|find out more", l, re.I)).strip()
+        body = re.sub(r"\n{3,}", "\n\n", body)
         kws = [k for k in dict.fromkeys(pick_keywords("franchisor") + pick_keywords("difference"))][:2]
         keywords = kws
-        body += (f"\n\nAt {B['name']}, we help older people in {area} and across Leeds keep enjoying the "
-                 f"moments that matter at home. Our {kws[0]} is never rushed: visits of at least an hour, "
-                 f"with the same familiar Care Pro every time. Looking for {kws[1]} for a loved one? "
-                 "Get in touch for a friendly, no-obligation chat. 💚")
+        body += (f"\n\n💚 {B['name']}: {kws[0]} that's never rushed, with visits of at least an hour "
+                 f"and the same familiar Care Pro. Looking for {kws[1]} in {area}? Get in touch.")
     body += f"\n\n📞 {B['phone']}\n✉️ {B['email']}\n🌐 {B['website_short']}"
     ig = limit_hashtags(strip_links_for_instagram(body), 5)
     fb = limit_hashtags(body, 3)

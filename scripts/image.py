@@ -31,7 +31,7 @@ LAYOUTS = {"difference": ["photo_house", "photo_corner", "stat", "text"],
            "live_in": ["photo_house_big", "photo_corner", "photo_house"],
            "recruitment": ["photo_house", "tips", "photo_house_big"],
            "choice": ["stat", "photo_corner", "photo_house", "text"],
-           "franchisor": ["photo_house_big", "stat", "photo_corner"]}
+           "franchisor": ["text", "stat"]}   # brand graphic: a random photo rarely matches the national copy
 
 
 # ---------- fonts & text ----------
