@@ -32,17 +32,17 @@ BANK = {
          "body": "Live-in care means your loved one stays in the home they love, keeping their routines, "
                  "garden, pets and neighbours, with one-to-one support day and night."},
         {"headline": "Stay at home, with care that stays",
-         "sub": "A dedicated Care Pro, **living alongside** your loved one.",
+         "sub": "A dedicated **care professional**, living alongside your loved one.",
          "body": "With live-in care, a dedicated care professional lives alongside your loved one, offering "
                  "companionship, practical help and peace of mind for the whole family."},
     ],
     "recruitment": [
         {"headline": "We're hiring!",
-         "sub": "Join our **Care Pros** in Leeds. No experience needed.",
+         "sub": "Join our **care professionals** in Leeds. No experience needed.",
          "points": ["Full paid training", "Flexible hours", "Visits of at least an hour", "Wellbeing support"],
          "body": "We're recruiting care professionals across Leeds. No experience needed: full paid training, "
                  "flexible hours and visits of at least an hour, so you really get to know the people you support."},
-        {"headline": "Now hiring Care Pros!",
+        {"headline": "Become a care professional",
          "sub": "Kindness is the **only experience** you need.",
          "points": ["Full paid training", "Flexible hours to suit you", "Never-rushed visits", "A friendly local team"],
          "body": "If you're patient, kind and love a good chat, you could make a real difference as a Home "

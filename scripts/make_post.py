@@ -105,7 +105,7 @@ def write(ptype, brief, keywords, topic, area):
               f"Mention the Leeds area '{area}' once, naturally.\n"
               "What performs best for home care: open with a hook families recognise (a worry, a sign, a question); "
               "ease guilt; be warm and specific; one clear call to action.\n"
-              "Home Instead brand rules: call carers 'Care Professionals' or 'Care Pros'; image text must be very short.\n"
+              "Home Instead brand rules: always call carers 'care professionals' (never 'Care Pros' or 'carers'); image text must be very short.\n"
               "Rules: plain British English, no prices, no client names, no made-up reviews, quotes or statistics, "
               "no claims about ratings or awards.\n"
               "Return ONLY JSON with keys:\n"
@@ -196,6 +196,14 @@ def google_seo(text, ptype, keywords, area):
     return (text.rstrip() + " " + line + " Tap Learn more to find out how we can help.").strip()[:1500]
 
 
+def no_care_pros(text):
+    """House style: always 'care professional(s)', never 'Care Pro(s)' (also fixes franchisor copy)."""
+    if not isinstance(text, str):
+        return text
+    text = re.sub(r"\bCare Pros\b", "care professionals", text, flags=re.I)
+    return re.sub(r"\bCare Pro\b", "care professional", text, flags=re.I)
+
+
 def clean_for_google(text):
     """Google posts: no phone numbers, emails, links or hashtags in the text (content policy)."""
     t = re.sub(r"#\w+", "", text)
@@ -234,6 +242,10 @@ def main():
         keywords = pick_keywords(ptype)
         text = write(ptype, brief, keywords, topic, area)
 
+    text = {k: ([no_care_pros(x) for x in v] if isinstance(v, list) else no_care_pros(v)) for k, v in text.items()}
+    if item and item.get("caption"):
+        item["caption"] = no_care_pros(item["caption"])
+
     photo, layout = None, "franchisor image"
     if item and item.get("image"):                   # franchisor's own image used as-is
         image_path = item["image"]
@@ -269,7 +281,7 @@ def main():
         kws = [k for k in dict.fromkeys(pick_keywords("franchisor") + pick_keywords("difference"))][:2]
         keywords = kws
         body += (f"\n\n💚 {B['name']}: {kws[0]} that's never rushed, with visits of at least an hour "
-                 f"and the same familiar Care Pro. Looking for {kws[1]} in {area}? Get in touch.")
+                 f"and the same familiar care professional. Looking for {kws[1]} in {area}? Get in touch.")
     body += f"\n\n📞 {B['phone']}\n✉️ {B['email']}\n🌐 {B['website_short']}"
     ig = limit_hashtags(strip_links_for_instagram(body), 5)
     fb = limit_hashtags(body, 3)
