@@ -30,7 +30,8 @@
     "personal care at home",
     "companionship care",
     "24-hour care at home",
-    "alternative to a care home"
+    "alternative to a care home",
+    "carer jobs Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -61,7 +62,8 @@
     "2026-10-26 difference -> google, facebook, instagram",
     "2026-10-28 education -> facebook, instagram",
     "2026-10-29 choice -> google, facebook, instagram",
-    "2026-10-30 live_in -> google, facebook, instagram"
+    "2026-10-30 live_in -> google, facebook, instagram",
+    "2026-10-31 recruitment -> facebook, instagram"
   ],
   "types": [
     "choice",
@@ -78,7 +80,8 @@
     "difference",
     "education",
     "choice",
-    "live_in"
+    "live_in",
+    "recruitment"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -100,6 +103,7 @@
     "photo_house",
     "photo_house_big",
     "stat",
-    "photo_house"
+    "photo_house",
+    "tips"
   ]
 }
