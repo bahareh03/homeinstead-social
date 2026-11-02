@@ -33,7 +33,9 @@
     "alternative to a care home",
     "carer jobs Leeds",
     "companionship care",
-    "respite care in Leeds"
+    "respite care in Leeds",
+    "elderly care at home",
+    "home care agency in Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -48,7 +50,8 @@
     "recruitment-live_in-difference__morning-support.jpg",
     "education-choice__memory-card-game.jpg",
     "choice-difference-live_in__companion-card-game.jpg",
-    "choice-difference__smiling-man-cutout.png"
+    "choice-difference__smiling-man-cutout.png",
+    "recruitment-difference-choice__carer-phone-chat.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -67,7 +70,8 @@
     "2026-10-29 choice -> google, facebook, instagram",
     "2026-10-30 live_in -> google, facebook, instagram",
     "2026-10-31 recruitment -> facebook, instagram",
-    "2026-11-01 choice -> google, facebook, instagram"
+    "2026-11-01 choice -> google, facebook, instagram",
+    "2026-11-02 difference -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -86,7 +90,8 @@
     "choice",
     "live_in",
     "recruitment",
-    "choice"
+    "choice",
+    "difference"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -110,6 +115,7 @@
     "stat",
     "photo_house",
     "tips",
-    "cutout"
+    "cutout",
+    "photo_house"
   ]
 }
