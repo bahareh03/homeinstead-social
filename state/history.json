@@ -35,7 +35,9 @@
     "companionship care",
     "respite care in Leeds",
     "elderly care at home",
-    "home care agency in Leeds"
+    "home care agency in Leeds",
+    "respite care in Leeds",
+    "home help for the elderly"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -71,7 +73,8 @@
     "2026-10-30 live_in -> google, facebook, instagram",
     "2026-10-31 recruitment -> facebook, instagram",
     "2026-11-01 choice -> google, facebook, instagram",
-    "2026-11-02 difference -> google, facebook, instagram"
+    "2026-11-02 difference -> google, facebook, instagram",
+    "2026-11-03 choice -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -91,7 +94,8 @@
     "live_in",
     "recruitment",
     "choice",
-    "difference"
+    "difference",
+    "choice"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -116,6 +120,7 @@
     "photo_house",
     "tips",
     "cutout",
-    "photo_house"
+    "photo_house",
+    "stat"
   ]
 }
