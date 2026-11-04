@@ -37,7 +37,9 @@
     "elderly care at home",
     "home care agency in Leeds",
     "respite care in Leeds",
-    "home help for the elderly"
+    "home help for the elderly",
+    "elderly care at home",
+    "dementia care in Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -53,7 +55,8 @@
     "education-choice__memory-card-game.jpg",
     "choice-difference-live_in__companion-card-game.jpg",
     "choice-difference__smiling-man-cutout.png",
-    "recruitment-difference-choice__carer-phone-chat.jpg"
+    "recruitment-difference-choice__carer-phone-chat.jpg",
+    "education-recruitment__personal-care-toothbrush.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -74,7 +77,8 @@
     "2026-10-31 recruitment -> facebook, instagram",
     "2026-11-01 choice -> google, facebook, instagram",
     "2026-11-02 difference -> google, facebook, instagram",
-    "2026-11-03 choice -> google, facebook, instagram"
+    "2026-11-03 choice -> google, facebook, instagram",
+    "2026-11-04 education -> facebook, instagram"
   ],
   "types": [
     "choice",
@@ -95,7 +99,8 @@
     "recruitment",
     "choice",
     "difference",
-    "choice"
+    "choice",
+    "education"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -121,6 +126,7 @@
     "tips",
     "cutout",
     "photo_house",
-    "stat"
+    "stat",
+    "photo_house_big"
   ]
 }
