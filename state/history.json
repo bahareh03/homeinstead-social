@@ -39,7 +39,9 @@
     "respite care in Leeds",
     "home help for the elderly",
     "elderly care at home",
-    "dementia care in Leeds"
+    "dementia care in Leeds",
+    "home help for the elderly",
+    "care after a hospital stay"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -78,7 +80,8 @@
     "2026-11-01 choice -> google, facebook, instagram",
     "2026-11-02 difference -> google, facebook, instagram",
     "2026-11-03 choice -> google, facebook, instagram",
-    "2026-11-04 education -> facebook, instagram"
+    "2026-11-04 education -> facebook, instagram",
+    "2026-11-05 choice -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -100,7 +103,8 @@
     "choice",
     "difference",
     "choice",
-    "education"
+    "education",
+    "choice"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -127,6 +131,7 @@
     "cutout",
     "photo_house",
     "stat",
-    "photo_house_big"
+    "photo_house_big",
+    "text"
   ]
 }
