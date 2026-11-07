@@ -43,7 +43,8 @@
     "home help for the elderly",
     "care after a hospital stay",
     "alternative to a care home",
-    "live-in care in Leeds"
+    "live-in care in Leeds",
+    "home care jobs"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -61,7 +62,8 @@
     "choice-difference__smiling-man-cutout.png",
     "recruitment-difference-choice__carer-phone-chat.jpg",
     "education-recruitment__personal-care-toothbrush.jpg",
-    "live_in-education__bedtime-care.jpg"
+    "live_in-education__bedtime-care.jpg",
+    "education-recruitment__carer-medication.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -85,7 +87,8 @@
     "2026-11-03 choice -> google, facebook, instagram",
     "2026-11-04 education -> facebook, instagram",
     "2026-11-05 choice -> google, facebook, instagram",
-    "2026-11-06 live_in -> google, facebook, instagram"
+    "2026-11-06 live_in -> google, facebook, instagram",
+    "2026-11-07 recruitment -> facebook, instagram"
   ],
   "types": [
     "choice",
@@ -109,7 +112,8 @@
     "choice",
     "education",
     "choice",
-    "live_in"
+    "live_in",
+    "recruitment"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -138,6 +142,7 @@
     "stat",
     "photo_house_big",
     "text",
-    "photo_house_big"
+    "photo_house_big",
+    "photo_house"
   ]
 }
