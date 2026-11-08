@@ -44,7 +44,9 @@
     "care after a hospital stay",
     "alternative to a care home",
     "live-in care in Leeds",
-    "home care jobs"
+    "home care jobs",
+    "care after a hospital stay",
+    "personal care at home"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -88,7 +90,8 @@
     "2026-11-04 education -> facebook, instagram",
     "2026-11-05 choice -> google, facebook, instagram",
     "2026-11-06 live_in -> google, facebook, instagram",
-    "2026-11-07 recruitment -> facebook, instagram"
+    "2026-11-07 recruitment -> facebook, instagram",
+    "2026-11-08 choice -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -113,7 +116,8 @@
     "education",
     "choice",
     "live_in",
-    "recruitment"
+    "recruitment",
+    "choice"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -143,6 +147,7 @@
     "photo_house_big",
     "text",
     "photo_house_big",
-    "photo_house"
+    "photo_house",
+    "text"
   ]
 }
