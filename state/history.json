@@ -46,7 +46,9 @@
     "live-in care in Leeds",
     "home care jobs",
     "care after a hospital stay",
-    "personal care at home"
+    "personal care at home",
+    "home care agency in Leeds",
+    "home care in Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -65,7 +67,8 @@
     "recruitment-difference-choice__carer-phone-chat.jpg",
     "education-recruitment__personal-care-toothbrush.jpg",
     "live_in-education__bedtime-care.jpg",
-    "education-recruitment__carer-medication.jpg"
+    "education-recruitment__carer-medication.jpg",
+    "difference-choice-live_in__family-sofa.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -91,7 +94,8 @@
     "2026-11-05 choice -> google, facebook, instagram",
     "2026-11-06 live_in -> google, facebook, instagram",
     "2026-11-07 recruitment -> facebook, instagram",
-    "2026-11-08 choice -> google, facebook, instagram"
+    "2026-11-08 choice -> google, facebook, instagram",
+    "2026-11-09 difference -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -117,7 +121,8 @@
     "choice",
     "live_in",
     "recruitment",
-    "choice"
+    "choice",
+    "difference"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -148,6 +153,7 @@
     "text",
     "photo_house_big",
     "photo_house",
-    "text"
+    "text",
+    "photo_corner"
   ]
 }
