@@ -50,7 +50,9 @@
     "home care agency in Leeds",
     "home care in Leeds",
     "personal care at home",
-    "companionship care"
+    "companionship care",
+    "dementia care in Leeds",
+    "Alzheimer's support at home"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -98,7 +100,8 @@
     "2026-11-07 recruitment -> facebook, instagram",
     "2026-11-08 choice -> google, facebook, instagram",
     "2026-11-09 difference -> google, facebook, instagram",
-    "2026-11-10 choice -> google, facebook, instagram"
+    "2026-11-10 choice -> google, facebook, instagram",
+    "2026-11-11 education -> facebook, instagram"
   ],
   "types": [
     "choice",
@@ -126,7 +129,8 @@
     "recruitment",
     "choice",
     "difference",
-    "choice"
+    "choice",
+    "education"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -159,6 +163,7 @@
     "photo_house",
     "text",
     "photo_corner",
-    "text"
+    "text",
+    "tips"
   ]
 }
