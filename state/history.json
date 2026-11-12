@@ -52,7 +52,9 @@
     "personal care at home",
     "companionship care",
     "dementia care in Leeds",
-    "Alzheimer's support at home"
+    "Alzheimer's support at home",
+    "companionship care",
+    "respite care in Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -72,7 +74,8 @@
     "education-recruitment__personal-care-toothbrush.jpg",
     "live_in-education__bedtime-care.jpg",
     "education-recruitment__carer-medication.jpg",
-    "difference-choice-live_in__family-sofa.jpg"
+    "difference-choice-live_in__family-sofa.jpg",
+    "recruitment-choice-difference__garden-companion.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -101,7 +104,8 @@
     "2026-11-08 choice -> google, facebook, instagram",
     "2026-11-09 difference -> google, facebook, instagram",
     "2026-11-10 choice -> google, facebook, instagram",
-    "2026-11-11 education -> facebook, instagram"
+    "2026-11-11 education -> facebook, instagram",
+    "2026-11-12 choice -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -130,7 +134,8 @@
     "choice",
     "difference",
     "choice",
-    "education"
+    "education",
+    "choice"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -164,6 +169,7 @@
     "text",
     "photo_corner",
     "text",
-    "tips"
+    "tips",
+    "photo_house"
   ]
 }
