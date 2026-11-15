@@ -57,7 +57,9 @@
     "respite care in Leeds",
     "live-in care in Leeds",
     "24-hour care at home",
-    "care jobs in Leeds"
+    "care jobs in Leeds",
+    "respite care in Leeds",
+    "home help for the elderly"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -80,7 +82,8 @@
     "difference-choice-live_in__family-sofa.jpg",
     "recruitment-choice-difference__garden-companion.jpg",
     "live_in-choice-difference__daughter-dad-sofa.jpg",
-    "recruitment-choice-difference__laughing-together.jpg"
+    "recruitment-choice-difference__laughing-together.jpg",
+    "education-choice__puzzles-together.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -112,7 +115,8 @@
     "2026-11-11 education -> facebook, instagram",
     "2026-11-12 choice -> google, facebook, instagram",
     "2026-11-13 live_in -> google, facebook, instagram",
-    "2026-11-14 recruitment -> facebook, instagram"
+    "2026-11-14 recruitment -> facebook, instagram",
+    "2026-11-15 choice -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -144,7 +148,8 @@
     "education",
     "choice",
     "live_in",
-    "recruitment"
+    "recruitment",
+    "choice"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -181,6 +186,7 @@
     "tips",
     "photo_house",
     "photo_corner",
-    "photo_house"
+    "photo_house",
+    "photo_corner"
   ]
 }
