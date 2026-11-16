@@ -59,7 +59,9 @@
     "24-hour care at home",
     "care jobs in Leeds",
     "respite care in Leeds",
-    "home help for the elderly"
+    "home help for the elderly",
+    "home care in Leeds",
+    "domiciliary care in Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -116,7 +118,8 @@
     "2026-11-12 choice -> google, facebook, instagram",
     "2026-11-13 live_in -> google, facebook, instagram",
     "2026-11-14 recruitment -> facebook, instagram",
-    "2026-11-15 choice -> google, facebook, instagram"
+    "2026-11-15 choice -> google, facebook, instagram",
+    "2026-11-16 difference -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -149,7 +152,8 @@
     "choice",
     "live_in",
     "recruitment",
-    "choice"
+    "choice",
+    "difference"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -187,6 +191,7 @@
     "photo_house",
     "photo_corner",
     "photo_house",
-    "photo_corner"
+    "photo_corner",
+    "text"
   ]
 }
