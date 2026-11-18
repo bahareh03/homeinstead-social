@@ -63,7 +63,9 @@
     "home care in Leeds",
     "domiciliary care in Leeds",
     "home help for the elderly",
-    "care after a hospital stay"
+    "care after a hospital stay",
+    "Alzheimer's support at home",
+    "elderly care at home"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -122,7 +124,8 @@
     "2026-11-14 recruitment -> facebook, instagram",
     "2026-11-15 choice -> google, facebook, instagram",
     "2026-11-16 difference -> google, facebook, instagram",
-    "2026-11-17 choice -> google, facebook, instagram"
+    "2026-11-17 choice -> google, facebook, instagram",
+    "2026-11-18 education -> facebook, instagram"
   ],
   "types": [
     "choice",
@@ -157,7 +160,8 @@
     "recruitment",
     "choice",
     "difference",
-    "choice"
+    "choice",
+    "education"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -197,6 +201,7 @@
     "photo_house",
     "photo_corner",
     "text",
-    "stat"
+    "stat",
+    "text"
   ]
 }
