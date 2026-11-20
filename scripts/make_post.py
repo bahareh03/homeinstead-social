@@ -3,7 +3,7 @@ import datetime, json, os, pathlib, random, re
 from zoneinfo import ZoneInfo
 import requests, yaml
 from image import make_card, host, pick_photo, pick_layout
-from content_bank import BANK, EDUCATION_POINTS, STATS, SOURCE
+from content_bank import STATS, SOURCE, BANK, EDUCATION_POINTS, CHOICE, EDUCATION, TAILS
 import franchisor_plan
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -30,6 +30,9 @@ def franchisor_item():
         return None
     for img in sorted(folder.iterdir()):
         key = f"{MONTH}/{img.name}"
+        day = re.match(r"(\d{1,2})\D", img.name)
+        if day and not (TODAY.day - 3 <= int(day.group(1)) <= TODAY.day + 1):
+            continue                                  # dated image: only around its planned day
         if img.suffix.lower() in (".jpg", ".jpeg", ".png", ".webp") and key not in H["franchisor"]:
             cap = img.with_suffix(".txt")
             return {"key": key, "image": img, "caption": cap.read_text().strip() if cap.exists() else ""}
@@ -119,17 +122,21 @@ def write(ptype, brief, keywords, topic, area):
               'focused on the service and why to choose us, ends with a call to action.')
     out = claude(prompt)
     if not (out and out.get("headline") and out.get("body")):
-        variants = BANK.get(ptype) or BANK["choice"]
-        out = dict(variants[H["types"].count(ptype) % len(variants)])
-        if ptype == "education" and topic:
-            out["headline"] = f"Understanding {topic}"[:60]
-            out["points"] = next((v for k, v in EDUCATION_POINTS.items() if k in topic.lower()), out["points"])
-            out["body"] = (f"{topic[:1].upper() + topic[1:]} can feel worrying for families. Spotting changes early "
-                           "makes a real difference. If you're concerned, speak to their GP.")
+        n = H["types"].count(ptype)
+        match = lambda bank: next((dict(v) for k, v in bank.items() if k in (topic or "").lower()), None)
+        if ptype == "choice":
+            out = match(CHOICE) or dict(BANK["difference"][n % len(BANK["difference"])])
+        elif ptype == "education" and topic:
+            e = match(EDUCATION) or {"points": BANK["education"][0]["points"],
+                                     "body": f"{topic[:1].upper() + topic[1:]} can feel worrying for families."}
+            out = {"headline": f"Understanding {topic}"[:60], "points": e["points"],
+                   "body": e["body"] + " If you're concerned, speak to their GP."}
+        else:
+            variants = BANK.get(ptype) or BANK["choice"]
+            out = dict(variants[n % len(variants)])
         k = keywords[0] if keywords else "home care in Leeds"
         tail = (f" Looking for {k}? Apply at {B['recruitment_url']}" if ptype == "recruitment"
-                else f" Looking for {k}? Our local team supports families in {area} and across Leeds. "
-                     f"Call {B['phone']} for a friendly chat.")
+                else TAILS[len(H["published"]) % len(TAILS)].format(k=k, area=area, phone=B["phone"]))
         out["google"] = out["body"] + tail
         out["body"] = out["body"] + tail
     # A statistic is only used when it was written for this exact wording (paired in the content bank),
