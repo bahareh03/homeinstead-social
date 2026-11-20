@@ -36,6 +36,8 @@ weekly_plan:
 franchisor:
   per_month: 3
   folder: "franchisor"
+  # Ignore plan items dated before this day of the month (per month). Nov 2026 plan arrived late.
+  start_day: {"2026-11": 21}
 
 education_topics: [Alzheimer's disease, vascular dementia, early signs of dementia, Parkinson's disease,
   stroke recovery at home, falls prevention, arthritis, type 2 diabetes in later life, loneliness and isolation,

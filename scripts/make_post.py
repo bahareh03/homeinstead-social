@@ -42,7 +42,8 @@ def franchisor_item():
         return (bool(care.search(i["copy"])) and not chat.search(i["copy"]), -abs(franchisor_plan.day_number(i["day"]) - TODAY.day))
     # Never post a franchisor item before its planned date (e.g. Halloween a week early), and skip
     # ones that are more than 10 days old.
-    plan = [i for i in plan if TODAY.day - 10 <= franchisor_plan.day_number(i["day"]) <= TODAY.day + 1]
+    start = CFG["franchisor"].get("start_day", {}).get(TODAY.strftime("%Y-%m"), 1)
+    plan = [i for i in plan if max(start, TODAY.day - 10) <= franchisor_plan.day_number(i["day"]) <= TODAY.day + 1]
     upcoming = sorted(plan, key=score, reverse=True)
     if upcoming:
         i = upcoming[0]
