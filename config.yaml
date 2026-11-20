@@ -72,6 +72,7 @@ hashtags:
 # National campaign hashtags by month (from the franchisor's monthly plan), added first
 campaign_hashtags:
   "2026-10": ["#WeekendsWellSpent"]
+  "2026-11": ["#WeekendsWellSpent"]
 
 topic_hashtags:          # added first on educational posts about these topics
   dementia: "#DementiaCare"

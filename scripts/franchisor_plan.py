@@ -3,7 +3,8 @@ and turn it into ready-to-post items for Home Instead Leeds Central."""
 import pathlib, re
 import docx
 
-SKIP = re.compile(r"\[(client name|insert name|name)\]|poll|testimonial", re.I)   # needs local input we don't have
+# Rows that need local input we don't have (a name, a real review, a recipe card/video from Canva)
+SKIP = re.compile(r"\[(client name|insert name|name)\]|poll|testimonial|kind words|full recipe|video", re.I)
 
 
 def load(folder, business):
