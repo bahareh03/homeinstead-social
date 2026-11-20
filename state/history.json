@@ -67,7 +67,9 @@
     "Alzheimer's support at home",
     "elderly care at home",
     "care after a hospital stay",
-    "personal care at home"
+    "personal care at home",
+    "24-hour care at home",
+    "alternative to a care home"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -92,7 +94,8 @@
     "live_in-choice-difference__daughter-dad-sofa.jpg",
     "recruitment-choice-difference__laughing-together.jpg",
     "education-choice__puzzles-together.jpg",
-    "choice-difference-recruitment__trips-out.jpg"
+    "choice-difference-recruitment__trips-out.jpg",
+    "difference-choice-live_in__family-sofa.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -129,7 +132,8 @@
     "2026-11-16 difference -> google, facebook, instagram",
     "2026-11-17 choice -> google, facebook, instagram",
     "2026-11-18 education -> facebook, instagram",
-    "2026-11-19 choice -> google, facebook, instagram"
+    "2026-11-19 choice -> google, facebook, instagram",
+    "2026-11-20 live_in -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -166,7 +170,8 @@
     "difference",
     "choice",
     "education",
-    "choice"
+    "choice",
+    "live_in"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -208,6 +213,7 @@
     "text",
     "stat",
     "text",
-    "photo_house"
+    "photo_house",
+    "photo_corner"
   ]
 }
