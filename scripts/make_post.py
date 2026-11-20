@@ -30,9 +30,8 @@ def franchisor_item():
         return None
     for img in sorted(folder.iterdir()):
         key = f"{MONTH}/{img.name}"
-        day = re.match(r"(\d{1,2})\D", img.name)
-        if day and not (TODAY.day - 3 <= int(day.group(1)) <= TODAY.day + 1):
-            continue                                  # dated image: only around its planned day
+        if re.match(r"\d{1,2}-", img.name):
+            continue                                  # dated files go out on their exact day (dated_item)
         if img.suffix.lower() in (".jpg", ".jpeg", ".png", ".webp") and key not in H["franchisor"]:
             cap = img.with_suffix(".txt")
             return {"key": key, "image": img, "caption": cap.read_text().strip() if cap.exists() else ""}
@@ -54,7 +53,35 @@ def franchisor_item():
     return None
 
 
+def dated_item():
+    """Files named 'DD-something' in this month's franchisor folder go out on exactly that day, whatever the
+    weekday: an image (+ optional .txt caption), or a .txt alone (first line = image headline, rest = caption)."""
+    folder = ROOT / CFG["franchisor"]["folder"] / MONTH
+    if not folder.exists():
+        return None
+    files = sorted(f for f in folder.iterdir() if re.match(rf"0?{TODAY.day}-", f.name))
+    for f in files:
+        key = f"{MONTH}/{f.name}"
+        if key in H["franchisor"]:
+            continue
+        if f.suffix.lower() in (".jpg", ".jpeg", ".png", ".webp"):
+            cap = f.with_suffix(".txt")
+            return {"key": key, "image": f, "caption": cap.read_text().strip() if cap.exists() else ""}
+        if f.suffix == ".txt" and not any(f.with_suffix(x).exists() for x in (".jpg", ".jpeg", ".png", ".webp")):
+            head, _, cap = f.read_text().strip().partition("\n")
+            sub = ""
+            if cap.lower().startswith("sub:"):                # optional 2nd line 'sub: ...' = image subline
+                sub, _, cap = cap.partition("\n")
+                sub = sub[4:].strip()
+            return {"key": key, "image": None, "idea": head.strip(), "headline": head.strip(),
+                    "sub": sub, "caption": cap.strip()}
+    return None
+
+
 def post_type():
+    item = dated_item()
+    if item:
+        return "franchisor", item
     t = CFG["weekly_plan"][TODAY.weekday()]
     # Franchisor content is mostly 'Weekends Well Spent', so it goes out on Thursdays (run-up to the
     # weekend), with a Sunday catch-up late in the month if fewer than 3 have gone out.
@@ -150,9 +177,11 @@ def franchisor_text(item):
     """The franchisor's own (approved) copy; headline taken from the first short sentence or the idea title."""
     copy = item["caption"]
     first = re.split(r"(?<=[.!?])\s|\n", copy.strip())[0].strip()
-    head = first if 2 <= len(first.split()) <= 7 else item.get("idea", "Weekends Well Spent")
+    head = item.get("headline") or (first if 2 <= len(first.split()) <= 7 else item.get("idea", "Weekends Well Spent"))
     head = re.sub(r"[^\w\s'’,!?-]", "", head).strip()
     c = {"headline": head, "body": copy, "google": re.sub(r"#\w+", "", copy).strip()}
+    if item.get("sub"):
+        c["sub"] = item["sub"]
     for st in STATS:
         if st["number"] in copy:
             c["stat"] = dict(st, source=SOURCE)

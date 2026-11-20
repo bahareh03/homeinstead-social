@@ -171,9 +171,9 @@ def lay_text(c, photo):
     corner(img, "bl", LIME, mark=GREEN)
     arrow(img, LIME if bg != WHITE else SKY)
     d = ImageDraw.Draw(img)
-    hl = LILAC if bg == GREEN else (SKY if accent == SKY else GREEN)
+    hl = LILAC if bg == GREEN else GREEN              # readable contrast: never pale blue/lilac on white
     y = headline(d, c["headline"], W / 2, 470, 850, hl, sizes=(120, 104, 92, 80))
-    rich(d, c.get("sub", ""), W / 2, y + 40, 820, ink, LIME if bg == GREEN else LILAC)
+    rich(d, c.get("sub", ""), W / 2, y + 40, 820, ink, LIME if bg == GREEN else MIDNIGHT)
     return img
 
 
@@ -185,10 +185,10 @@ def lay_stat(c, photo):
     corner(img, "bl", LIME, mark=GREEN)
     arrow(img, LIME)
     d = ImageDraw.Draw(img)
-    num_c = LIME if bg == GREEN else random.choice([SKY, LILAC])
+    num_c = LIME if bg == GREEN else random.choice([GREEN, MIDNIGHT])
     f = serif(300)
     d.text((W / 2 - d.textlength(s["number"], font=f) / 2, 400), s["number"], font=f, fill=num_c)
-    y = rich(d, s["text"], W / 2, 760, 820, WHITE if bg == GREEN else GREEN, LIME if bg == GREEN else LILAC, size=48)
+    y = rich(d, s["text"], W / 2, 760, 820, WHITE if bg == GREEN else GREEN, LIME if bg == GREEN else MIDNIGHT, size=48)
     src = s.get("source", "")
     if src:
         sf = sans(24, 400)
