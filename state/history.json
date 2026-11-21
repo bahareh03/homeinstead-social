@@ -69,7 +69,8 @@
     "care after a hospital stay",
     "personal care at home",
     "24-hour care at home",
-    "alternative to a care home"
+    "alternative to a care home",
+    "carer jobs Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -95,7 +96,8 @@
     "recruitment-choice-difference__laughing-together.jpg",
     "education-choice__puzzles-together.jpg",
     "choice-difference-recruitment__trips-out.jpg",
-    "difference-choice-live_in__family-sofa.jpg"
+    "difference-choice-live_in__family-sofa.jpg",
+    "recruitment-difference-choice__carer-phone-chat.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -133,7 +135,8 @@
     "2026-11-17 choice -> google, facebook, instagram",
     "2026-11-18 education -> facebook, instagram",
     "2026-11-19 choice -> google, facebook, instagram",
-    "2026-11-20 live_in -> google, facebook, instagram"
+    "2026-11-20 live_in -> google, facebook, instagram",
+    "2026-11-21 recruitment -> facebook, instagram"
   ],
   "types": [
     "choice",
@@ -171,7 +174,8 @@
     "choice",
     "education",
     "choice",
-    "live_in"
+    "live_in",
+    "recruitment"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -214,6 +218,7 @@
     "stat",
     "text",
     "photo_house",
-    "photo_corner"
+    "photo_corner",
+    "photo_house_big"
   ]
 }
