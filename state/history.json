@@ -72,7 +72,9 @@
     "alternative to a care home",
     "carer jobs Leeds",
     "personal care at home",
-    "companionship care"
+    "companionship care",
+    "domiciliary care in Leeds",
+    "elderly care at home"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -140,7 +142,8 @@
     "2026-11-19 choice -> google, facebook, instagram",
     "2026-11-20 live_in -> google, facebook, instagram",
     "2026-11-21 recruitment -> facebook, instagram",
-    "2026-11-22 choice -> google, facebook, instagram"
+    "2026-11-22 choice -> google, facebook, instagram",
+    "2026-11-23 difference -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -180,7 +183,8 @@
     "choice",
     "live_in",
     "recruitment",
-    "choice"
+    "choice",
+    "difference"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -225,6 +229,7 @@
     "photo_house",
     "photo_corner",
     "photo_house_big",
-    "cutout"
+    "cutout",
+    "text"
   ]
 }
