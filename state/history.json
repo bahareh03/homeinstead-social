@@ -74,6 +74,8 @@
     "personal care at home",
     "companionship care",
     "domiciliary care in Leeds",
+    "elderly care at home",
+    "home care in Leeds",
     "elderly care at home"
   ],
   "media": [
@@ -143,7 +145,8 @@
     "2026-11-20 live_in -> google, facebook, instagram",
     "2026-11-21 recruitment -> facebook, instagram",
     "2026-11-22 choice -> google, facebook, instagram",
-    "2026-11-23 difference -> google, facebook, instagram"
+    "2026-11-23 difference -> google, facebook, instagram",
+    "2026-11-24 franchisor -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -184,12 +187,14 @@
     "live_in",
     "recruitment",
     "choice",
-    "difference"
+    "difference",
+    "franchisor"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
     "2026-10/October_Local_Social_Media_Plan/13th October",
-    "2026-10/October_Local_Social_Media_Plan/31st October"
+    "2026-10/October_Local_Social_Media_Plan/31st October",
+    "2026-11/24-homecare-review.txt"
   ],
   "layouts": [
     "photo_house",
@@ -230,6 +235,7 @@
     "photo_corner",
     "photo_house_big",
     "cutout",
+    "text",
     "text"
   ]
 }
