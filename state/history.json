@@ -80,7 +80,9 @@
     "elderly care at home",
     "dementia care in Leeds",
     "companionship care",
-    "respite care in Leeds"
+    "respite care in Leeds",
+    "alternative to a care home",
+    "live-in care in Leeds"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -109,7 +111,8 @@
     "difference-choice-live_in__family-sofa.jpg",
     "recruitment-difference-choice__carer-phone-chat.jpg",
     "choice-difference__smiling-man-cutout.png",
-    "education-choice__memory-card-game.jpg"
+    "education-choice__memory-card-game.jpg",
+    "choice-difference-live_in__companion-card-game.jpg"
   ],
   "published": [
     "2026-10-18 choice -> google, facebook, instagram",
@@ -153,7 +156,8 @@
     "2026-11-23 difference -> google, facebook, instagram",
     "2026-11-24 franchisor -> google, facebook, instagram",
     "2026-11-25 education -> facebook, instagram",
-    "2026-11-26 choice -> google, facebook, instagram"
+    "2026-11-26 choice -> google, facebook, instagram",
+    "2026-11-27 live_in -> google, facebook, instagram"
   ],
   "types": [
     "choice",
@@ -197,7 +201,8 @@
     "difference",
     "franchisor",
     "education",
-    "choice"
+    "choice",
+    "live_in"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -247,6 +252,7 @@
     "text",
     "text",
     "tips",
-    "photo_corner"
+    "photo_corner",
+    "photo_house_big"
   ]
 }
