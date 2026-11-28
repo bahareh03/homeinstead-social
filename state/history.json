@@ -82,7 +82,8 @@
     "companionship care",
     "respite care in Leeds",
     "alternative to a care home",
-    "live-in care in Leeds"
+    "live-in care in Leeds",
+    "home care jobs"
   ],
   "media": [
     "education-choice__puzzles-together.jpg",
@@ -157,7 +158,8 @@
     "2026-11-24 franchisor -> google, facebook, instagram",
     "2026-11-25 education -> facebook, instagram",
     "2026-11-26 choice -> google, facebook, instagram",
-    "2026-11-27 live_in -> google, facebook, instagram"
+    "2026-11-27 live_in -> google, facebook, instagram",
+    "2026-11-28 recruitment -> facebook, instagram"
   ],
   "types": [
     "choice",
@@ -202,7 +204,8 @@
     "franchisor",
     "education",
     "choice",
-    "live_in"
+    "live_in",
+    "recruitment"
   ],
   "franchisor": [
     "2026-10/October_Local_Social_Media_Plan/20th October",
@@ -253,6 +256,7 @@
     "text",
     "tips",
     "photo_corner",
-    "photo_house_big"
+    "photo_house_big",
+    "tips"
   ]
 }
